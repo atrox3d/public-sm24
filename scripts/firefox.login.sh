@@ -36,7 +36,7 @@ function firefoxlogin()
 	########################################################################################################
 	#	Firefox	
 	#	curl login POSIX
-	#	***REMOVED***.lombardo@***REMOVED***
+	#	user, password, [EXECUTE]
 	#	senza coookies
 	#	con variabili
 	#	ITA
