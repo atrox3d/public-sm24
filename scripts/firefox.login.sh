@@ -18,7 +18,7 @@ DEBUG=echo
 ########################################################################################################
 function syntax()
 {
-	echo "syntax $(basename $BASH_SOURCE) user password"
+	echo "syntax $(basename $BASH_SOURCE) user password [EXECUTE]"
 	exit 1
 }
 ########################################################################################################
