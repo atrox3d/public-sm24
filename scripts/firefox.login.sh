@@ -37,6 +37,25 @@ function firefoxlogin()
 	LOGIN_MAIL="$1"
 	LOGIN_PASSWORD="$2"
 	#
+	echo -e "\n########################################################################################################" >> output/token.json
+	echo -e "$LOGIN_MAIL\t$LOGIN_PASSWORD" >> output/token.json
+	echo -e "########################################################################################################" >> output/token.json
+	#
+	echo "executing:"
+	echo "$DEBUG \                                                                                         "
+	echo "curl 'https://www.supermercato24.it/user/api/v1/local/signin?' \                                 "
+	echo "-H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0' \ "
+	echo "-H 'Accept: application/json, text/plain, */*' \                                                 "
+	echo "-H 'Accept-Language: it-IT,it;q=0.8,en-US;q=0.5,en;q=0.3' \                                      "
+	echo "-H 'Referer: https://www.supermercato24.it/' \                                                   "
+	echo "-H 'X-Sm24: website/7.1.11' \                                                                    "
+	echo "-H 'Content-Type: application/json;charset=utf-8' \                                              "
+	echo "-H 'Origin: https://www.supermercato24.it' \                                                     "
+	echo "-H 'Connection: keep-alive' \                                                                    "
+	echo "--data '{\"email\":\"$LOGIN_MAIL\",\"password\":\"$LOGIN_PASSWORD\"}' \                              "
+	echo "--compressed | tee -a output/token.json                                                             "
+	#
+	echo "########################################################################################################"
 	$DEBUG \
 	curl 'https://www.supermercato24.it/user/api/v1/local/signin?' \
 	-H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0' \
@@ -48,7 +67,8 @@ function firefoxlogin()
 	-H 'Origin: https://www.supermercato24.it' \
 	-H 'Connection: keep-alive' \
 	--data '{"email":"'$LOGIN_MAIL'","password":"'$LOGIN_PASSWORD'"}' \
-	--compressed | tee output/token.json
+	--compressed | tee -a output/token.json
+	echo "########################################################################################################"
 }
 ########################################################################################################
 #
