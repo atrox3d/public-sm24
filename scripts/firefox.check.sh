@@ -69,6 +69,7 @@ function firefoxcheck()
 	#
 	#curl 'https://api.supermercato24.it/sm/api/v3/locations/12890/stores/1211/availability?funnel=POSTAL_CODE_POPUP' \
 	echo "########################################################################################################"
+	OUTPUT="$(
 	$DEBUG \
 	curl 'https://api.supermercato24.it/sm/api/v3/locations/'$LOCATIONID'/stores/'$STOREID'/availability?funnel=POSTAL_CODE_POPUP' \
 	-H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0' \
@@ -83,7 +84,9 @@ function firefoxcheck()
 	-H 'Pragma: no-cache' \
 	-H 'Cache-Control: no-cache'\
 	-w "\nHTTP_STATUS: %{http_code}\n" \
-	--compressed 
+	--compressed
+	)"
+	echo "$OUTPUT"
 	echo "########################################################################################################"
 }
 ########################################################################################################
