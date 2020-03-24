@@ -64,6 +64,7 @@ function firefoxcheck()
 	-H 'Connection: keep-alive' \
 	-H 'Pragma: no-cache' \
 	-H 'Cache-Control: no-cache'\
+	-w "\nHTTP_STATUS: %{http_code}\n" \
 	--compressed 
 	echo "########################################################################################################"
 }
