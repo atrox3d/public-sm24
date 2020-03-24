@@ -44,6 +44,24 @@ function firefoxcheck()
 	#LOGIN_PASSWORD="$2"
 	LOCATIONID=$1
 	STOREID=$2
+	
+	[ -v DEBUG ] && {
+		echo "$DEBUG \\"
+	}
+	echo "curl 'https://api.supermercato24.it/sm/api/v3/locations/'$LOCATIONID'/stores/'$STOREID'/availability?funnel=POSTAL_CODE_POPUP' \ "
+	echo "-H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0' \ "
+	echo "-H 'Accept: application/json, text/plain, */*' \ "
+	echo "-H 'Accept-Language: it-IT,it;q=0.8,en-US;q=0.5,en;q=0.3' \ "
+	echo "-H 'Referer: https://www.supermercato24.it/s' \ "
+	echo "-H 'Authorization: Bearer ed01e2e071ddbda38ea5a85f43ae547360bd0bbf' \ "
+	echo "-H 'X-S24-Client: website/2.0.0-alpha.1' \ "
+	echo "-H 'X-S24-Country: ITA' \ "
+	echo "-H 'Origin: https://www.supermercato24.it' \ "
+	echo "-H 'Connection: keep-alive' \ "
+	echo "-H 'Pragma: no-cache' \ "
+	echo "-H 'Cache-Control: no-cache'\ "
+	echo "-w \"\nHTTP_STATUS: %{http_code}\n\" \ "
+	echo "--compressed "
 	#
 	#echo -e "########################################################################################################" >> output/token.json
 	#echo -e "$(timestamp)\t$LOGIN_MAIL\t$LOGIN_PASSWORD" >> output/token.json
