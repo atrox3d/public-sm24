@@ -59,8 +59,9 @@ function firefoxlogin()
 	echo "-H 'Content-Type: application/json;charset=utf-8' \                                              "
 	echo "-H 'Origin: https://www.supermercato24.it' \                                                     "
 	echo "-H 'Connection: keep-alive' \                                                                    "
-	echo "--data '{\"email\":\"$LOGIN_MAIL\",\"password\":\"$LOGIN_PASSWORD\"}' \                              "
-	echo "--compressed | tee -a output/token.json                                                             "
+	echo "--data '{\"email\":\"$LOGIN_MAIL\",\"password\":\"$LOGIN_PASSWORD\"}' \                          "
+	echo "-w \"\nHTTP_STATUS: %{http_code}\n\" \ "
+	echo "--compressed | tee -a output/token.json"
 	#
 	echo "########################################################################################################"
 	$DEBUG \
@@ -74,6 +75,7 @@ function firefoxlogin()
 	-H 'Origin: https://www.supermercato24.it' \
 	-H 'Connection: keep-alive' \
 	--data '{"email":"'$LOGIN_MAIL'","password":"'$LOGIN_PASSWORD'"}' \
+	-w "\nHTTP_STATUS: %{http_code}\n" \
 	--compressed | tee -a output/token.json
 	echo >> output/token.json
 	echo "########################################################################################################"
