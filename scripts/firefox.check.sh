@@ -89,7 +89,8 @@ function firefoxcheck()
 	-H 'Pragma: no-cache' \
 	-H 'Cache-Control: no-cache'\
 	-w "\nHTTP_STATUS: %{http_code}\n" \
-	--compressed
+	--compressed \
+	2>/dev/null
 	)"
 	echo "output: $OUTPUT"
 	echo "########################################################################################################"
