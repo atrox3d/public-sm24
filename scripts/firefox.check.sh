@@ -8,8 +8,8 @@
 #
 ########################################################################################################
 DEBUG=echo
-[ $# -gt 2 ] && {
-	[ $3 == EXECUTE ] && {
+[ $# -gt 3 ] && {
+	[ $4 == EXECUTE ] && {
 		DEBUG=
 	}
 }
@@ -44,6 +44,11 @@ function firefoxcheck()
 	#LOGIN_PASSWORD="$2"
 	LOCATIONID=$1
 	STOREID=$2
+	BEARERID=$3
+	
+	LOCATIONID=12890
+	STOREID=1211
+	BEARERID=ed01e2e071ddbda38ea5a85f43ae547360bd0bbf
 	
 	[ -v DEBUG ] && {
 		echo "$DEBUG \\"
@@ -53,7 +58,7 @@ function firefoxcheck()
 	echo "-H 'Accept: application/json, text/plain, */*' \ "
 	echo "-H 'Accept-Language: it-IT,it;q=0.8,en-US;q=0.5,en;q=0.3' \ "
 	echo "-H 'Referer: https://www.supermercato24.it/s' \ "
-	echo "-H 'Authorization: Bearer ed01e2e071ddbda38ea5a85f43ae547360bd0bbf' \ "
+	echo "-H 'Authorization: Bearer $BEARERID' \ "
 	echo "-H 'X-S24-Client: website/2.0.0-alpha.1' \ "
 	echo "-H 'X-S24-Country: ITA' \ "
 	echo "-H 'Origin: https://www.supermercato24.it' \ "
@@ -86,7 +91,7 @@ function firefoxcheck()
 	-w "\nHTTP_STATUS: %{http_code}\n" \
 	--compressed
 	)"
-	echo "$OUTPUT"
+	echo "output: $OUTPUT"
 	echo "########################################################################################################"
 }
 ########################################################################################################
@@ -98,7 +103,7 @@ function firefoxcheck()
 ########################################################################################################
 # check parameters or exit
 ########################################################################################################
-[ $# -ge 2 ] || syntax
+[ $# -ge 3 ] || syntax
 
 echo "########################################################################################################"
 echo "script      : $(basename $BASH_SOURCE)"
@@ -109,7 +114,7 @@ do
 done
 echo "########################################################################################################"
 
-firefoxcheck "$1" "$2"
+firefoxcheck "$1" "$2" "$3"
 
 
 
