@@ -31,6 +31,26 @@ function timestamp()
 ########################################################################################################
 #
 ########################################################################################################
+function getJSONparser()
+{
+	if which jq > /dev/null
+	then
+		echo "jq"
+	elif which python3  > /dev/null
+	then
+		echo "python3"
+	elif which python  > /dev/null
+	then
+		echo "python"
+	else
+		echo "null"
+		return 1
+	fi
+	return 0
+}
+########################################################################################################
+#
+########################################################################################################
 function firefoxcheck()
 {
 	########################################################################################################
@@ -126,19 +146,7 @@ function firefoxcheck()
 	echo "STATUSCODE: $STATUSCODE"
 	echo "JSON      : $JSON"
 	echo "########################################################################################################"
-	if which jq
-	then
-		echo "trovato jq"
-	elif which python3
-	then
-		echo "trovato python3"
-	elif which python
-	then
-		echo "trovato python"
-	else
-		echo "nessun tool trovato"
-		return
-	fi
+
 	if [ $STATUSCODE -eq 404 ]
 	then
 		echo "NON CI SONO DISPONIBILITA'"
@@ -151,7 +159,13 @@ function firefoxcheck()
 		echo "*                                        *"
 		echo "******************************************"
 	else
-		:
+		echo "SENDMAIL"
+		if PARSER="$(getJSONparser)"
+		then
+			echo "found JSON parser : $PARSER"
+		else
+			echo "no JSON parser"
+		fi
 	fi
 	########################################################################################################
 	#	remove temp files
