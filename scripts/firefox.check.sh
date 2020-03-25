@@ -53,7 +53,7 @@ function firefoxcheck()
 	[ -v DEBUG ] && {
 		echo "$DEBUG \\"
 	}
-	echo "curl 'https://api.supermercato24.it/sm/api/v3/locations/'$LOCATIONID'/stores/'$STOREID'/availability?funnel=POSTAL_CODE_POPUP' \ "
+	echo "curl 'https://api.supermercato24.it/sm/api/v3/locations/$LOCATIONID/stores/$STOREID/availability?funnel=POSTAL_CODE_POPUP' \ "
 	echo "-H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0' \ "
 	echo "-H 'Accept: application/json, text/plain, */*' \ "
 	echo "-H 'Accept-Language: it-IT,it;q=0.8,en-US;q=0.5,en;q=0.3' \ "
@@ -76,7 +76,7 @@ function firefoxcheck()
 	echo "########################################################################################################"
 	OUTPUT="$(
 	$DEBUG \
-	curl 'https://api.supermercato24.it/sm/api/v3/locations/'$LOCATIONID'/stores/'$STOREID'/availability?funnel=POSTAL_CODE_POPUP' \
+	curl "https://api.supermercato24.it/sm/api/v3/locations/$LOCATIONID/stores/$STOREID/availability?funnel=POSTAL_CODE_POPUP" \
 	-H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0' \
 	-H 'Accept: application/json, text/plain, */*' \
 	-H 'Accept-Language: it-IT,it;q=0.8,en-US;q=0.5,en;q=0.3' \
@@ -92,9 +92,10 @@ function firefoxcheck()
 	--compressed 2>&1
 	)"
 	RETURNCODE=$?
-	
-	echo "output: $OUTPUT"
+	echo -n "curl retcode: $RETURNCODE, curl status: "
 	[ $RETURNCODE ] && echo "ok" || echo "ko"
+	echo "########################################################################################################"
+	echo "output: $OUTPUT"
 	echo "########################################################################################################"
 }
 ########################################################################################################
