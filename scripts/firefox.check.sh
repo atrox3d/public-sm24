@@ -49,7 +49,18 @@ function firefoxcheck()
 	LOCATIONID=12890
 	STOREID=1211
 	BEARERID=ed01e2e071ddbda38ea5a85f43ae547360bd0bbf
-	
+	#
+	{
+	echo -e "########################################################################################################"
+	echo -e "$(timestamp)\tlocationID:$LOCATIONID\tstoreID:$STOREID\tbearerID:$BEARERID"
+	echo -e "########################################################################################################"
+	} >>output/check.json
+	{
+	echo -e "########################################################################################################"
+	echo -e "$(timestamp)\tlocationID:$LOCATIONID\tstoreID:$STOREID\tbearerID:$BEARERID"
+	echo -e "########################################################################################################"
+	} >>output/error.json
+	#
 	[ -v DEBUG ] && {
 		echo "$DEBUG \\"
 	}
@@ -66,7 +77,9 @@ function firefoxcheck()
 	echo "-H 'Pragma: no-cache' \ "
 	echo "-H 'Cache-Control: no-cache' \ "
 	echo "-w '\nHTTP_STATUS: %{http_code}\n' \ "
-	echo "--compressed "
+	echo "--compressed \ "
+	#echo "2>&1"
+	echo "	2> >(tee -a output/error.json) 1> >(tee -a output/check.json)"
 	#
 	#echo -e "########################################################################################################" >> output/token.json
 	#echo -e "$(timestamp)\t$LOGIN_MAIL\t$LOGIN_PASSWORD" >> output/token.json
@@ -74,14 +87,14 @@ function firefoxcheck()
 	#
 	#curl 'https://api.supermercato24.it/sm/api/v3/locations/12890/stores/1211/availability?funnel=POSTAL_CODE_POPUP' \
 	echo "########################################################################################################"
-	OUTPUT="$(
+	#OUTPUT="$(
 	$DEBUG \
 	curl "https://api.supermercato24.it/sm/api/v3/locations/$LOCATIONID/stores/$STOREID/availability?funnel=POSTAL_CODE_POPUP" \
 	-H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0' \
 	-H 'Accept: application/json, text/plain, */*' \
 	-H 'Accept-Language: it-IT,it;q=0.8,en-US;q=0.5,en;q=0.3' \
 	-H 'Referer: https://www.supermercato24.it/s' \
-	-H 'Authorization: Bearer ed01e2e071ddbda38ea5a85f43ae547360bd0bbf' \
+	-H "Authorization: Bearer $BEARERID" \
 	-H 'X-S24-Client: website/2.0.0-alpha.1' \
 	-H 'X-S24-Country: ITA' \
 	-H 'Origin: https://www.supermercato24.it' \
@@ -89,14 +102,15 @@ function firefoxcheck()
 	-H 'Pragma: no-cache' \
 	-H 'Cache-Control: no-cache' \
 	-w '\nHTTP_STATUS: %{http_code}\n' \
-	--compressed 2>&1
-	)"
+	--compressed \
+	2> >(tee -a output/error.json) 1> >(tee -a output/check.json)
+	#)"
 	RETURNCODE=$?
 	echo -n "curl retcode: $RETURNCODE, curl status: "
 	[ $RETURNCODE ] && echo "ok" || echo "ko"
-	echo "########################################################################################################"
-	echo "output: $OUTPUT"
-	echo "########################################################################################################"
+	#echo "########################################################################################################"
+	#echo "output: $OUTPUT"
+	#echo "########################################################################################################"
 }
 ########################################################################################################
 #
