@@ -126,7 +126,26 @@ function firefoxcheck()
 	echo "STATUSCODE: $STATUSCODE"
 	echo "JSON      : $JSON"
 	echo "########################################################################################################"
-	read
+	if which jq
+	then
+		echo "trovato jq"
+	elif which python3
+	then
+		echo "trovato python3"
+	elif which python
+	then
+		echo "trovato python"
+	else
+		echo "nessun tool trovato"
+		return
+	fi
+	if [ $STATUSCODE -eq 404 ]
+	then
+		echo "NON CI SONO DISPONIBILITA'"
+		return
+	else
+		:
+	fi
 	########################################################################################################
 	#	remove temp files
 	########################################################################################################
