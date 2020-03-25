@@ -150,7 +150,7 @@ function firefoxcheck()
 	if [ $STATUSCODE -eq 404 ]
 	then
 		echo "NON CI SONO DISPONIBILITA'"
-		return
+		#return
 	elif [ $STATUSCODE -eq 200 ]
 	then
 		echo "******************************************"
@@ -158,7 +158,6 @@ function firefoxcheck()
 		echo "*        PROBABILE DISPONIBILITA'        *"
 		echo "*                                        *"
 		echo "******************************************"
-	else
 		echo "SENDMAIL"
 		if PARSER="$(getJSONparser)"
 		then
@@ -166,6 +165,8 @@ function firefoxcheck()
 		else
 			echo "no JSON parser"
 		fi
+	else
+		echo "WARNING | unknown status: $STATUSCODE" >> $OUT_CHK
 	fi
 	########################################################################################################
 	#	remove temp files
