@@ -59,8 +59,8 @@ function firefoxcheck()
 	echo -e "########################################################################################################"
 	echo -e "$(timestamp)\tlocationID:$LOCATIONID\tstoreID:$STOREID\tbearerID:$BEARERID"
 	echo -e "########################################################################################################"
-	} >>$TEMP_CHK
-	cp $TEMP_CHK $TEMP_ERR
+	} | tee -a $OUT_ERR >>$OUT_CHK 
+	#cp $TEMP_CHK $TEMP_ERR
 	#read
 	#
 	[ -v DEBUG ] && {
@@ -113,7 +113,9 @@ function firefoxcheck()
 	#
 	cat $TEMP_CHK >> $OUT_CHK
 	cat $TEMP_ERR >> $OUT_ERR
-	#read
+	read
+	
+	#
 	rm $TEMP_CHK $TEMP_ERR
 	#echo "########################################################################################################"
 	#echo "output: $OUTPUT"
