@@ -64,8 +64,8 @@ function firefoxcheck()
 	echo "-H 'Origin: https://www.supermercato24.it' \ "
 	echo "-H 'Connection: keep-alive' \ "
 	echo "-H 'Pragma: no-cache' \ "
-	echo "-H 'Cache-Control: no-cache'\ "
-	echo "-w \"\nHTTP_STATUS: %{http_code}\n\" \ "
+	echo "-H 'Cache-Control: no-cache' \ "
+	echo "-w '\nHTTP_STATUS: %{http_code}\n' \ "
 	echo "--compressed "
 	#
 	#echo -e "########################################################################################################" >> output/token.json
@@ -87,8 +87,8 @@ function firefoxcheck()
 	-H 'Origin: https://www.supermercato24.it' \
 	-H 'Connection: keep-alive' \
 	-H 'Pragma: no-cache' \
-	-H 'Cache-Control: no-cache'\
-	-w "\nHTTP_STATUS: %{http_code}\n" \
+	-H 'Cache-Control: no-cache' \
+	-w '\nHTTP_STATUS: %{http_code}\n' \
 	--compressed 2>&1
 	)"
 	RETURNCODE=$?
