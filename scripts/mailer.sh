@@ -25,7 +25,7 @@ then
 		ATTACHMENTS="$ATTACHMENTS -a $attachment"
 	done
 	echo ATTACHMENTS:$ATTACHMENTS
-	#echo \
+	#echo
 	sendemail \
 		-s  "${smtpserver}:${smtpport}" \
 		-xu "$mailuser" \
@@ -35,7 +35,7 @@ then
 		-u  "$subject" \
 		-m  "$message" \
 		-l  "$MAILLOG" \
-		${ATTACHMENTS}
+		-a ${ATTACHMENTS}
 else
 	sendemail \
 	-s  "${smtpserver}:${smtpport}" \
