@@ -45,21 +45,23 @@ function firefoxcheck()
 	LOCATIONID=$1
 	STOREID=$2
 	BEARERID=$3
-	
+	#
 	LOCATIONID=12890
 	STOREID=1211
 	BEARERID=ed01e2e071ddbda38ea5a85f43ae547360bd0bbf
+	#
+	TEMP_ERR=output/error.json.temp
+	TEMP_CHK=output/check.json.temp
+	OUT_ERR=output/error.json
+	OUT_CHK=output/check.json
 	#
 	{
 	echo -e "########################################################################################################"
 	echo -e "$(timestamp)\tlocationID:$LOCATIONID\tstoreID:$STOREID\tbearerID:$BEARERID"
 	echo -e "########################################################################################################"
-	} >>output/check.json
-	{
-	echo -e "########################################################################################################"
-	echo -e "$(timestamp)\tlocationID:$LOCATIONID\tstoreID:$STOREID\tbearerID:$BEARERID"
-	echo -e "########################################################################################################"
-	} >>output/error.json
+	} >>$TEMP_CHK
+	cp $TEMP_CHK $TEMP_ERR
+	#read
 	#
 	[ -v DEBUG ] && {
 		echo "$DEBUG \\"
@@ -79,7 +81,7 @@ function firefoxcheck()
 	echo "-w '\nHTTP_STATUS: %{http_code}\n' \ "
 	echo "--compressed \ "
 	#echo "2>&1"
-	echo "	2> >(tee -a output/error.json) 1> >(tee -a output/check.json)"
+	echo "	2> >(tee -a $TEMP_ERR) 1> >(tee -a $TEMP_CHK)"
 	#
 	#echo -e "########################################################################################################" >> output/token.json
 	#echo -e "$(timestamp)\t$LOGIN_MAIL\t$LOGIN_PASSWORD" >> output/token.json
@@ -103,11 +105,16 @@ function firefoxcheck()
 	-H 'Cache-Control: no-cache' \
 	-w '\nHTTP_STATUS: %{http_code}\n' \
 	--compressed \
-	2> >(tee -a output/error.json) 1> >(tee -a output/check.json)
+	2> >(tee -a $TEMP_ERR) 1> >(tee -a $TEMP_CHK)
 	#)"
 	RETURNCODE=$?
 	echo -n "curl retcode: $RETURNCODE, curl status: "
 	[ $RETURNCODE ] && echo "ok" || echo "ko"
+	#
+	cat $TEMP_CHK >> $OUT_CHK
+	cat $TEMP_ERR >> $OUT_ERR
+	#read
+	rm $TEMP_CHK $TEMP_ERR
 	#echo "########################################################################################################"
 	#echo "output: $OUTPUT"
 	#echo "########################################################################################################"
