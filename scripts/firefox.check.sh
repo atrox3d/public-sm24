@@ -143,6 +143,13 @@ function firefoxcheck()
 	then
 		echo "NON CI SONO DISPONIBILITA'"
 		return
+	elif [ $STATUSCODE -eq 200 ]
+	then
+		echo "******************************************"
+		echo "*                                        *"
+		echo "*        PROBABILE DISPONIBILITA'        *"
+		echo "*                                        *"
+		echo "******************************************"
 	else
 		:
 	fi
