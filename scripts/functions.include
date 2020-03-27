@@ -1,0 +1,63 @@
+#!/bin/bash
+################################################################################
+#
+#	detect OS
+#
+################################################################################
+function getOS()
+{
+	MACHINE="UNKNOWN"
+	OS="UNKNOWN"
+	RETURN=0
+
+	UNAME="$(uname -s)"
+	case "${UNAME}" in
+		Linux*)     MACHINE=Linux;OS=LINUX;;
+		Darwin*)    MACHINE=MacOS=MACOS;;
+		CYGWIN*)    MACHINE=Cygwin;OS=WINDOWS;;
+		MINGW*)     MACHINE=MinGw;OS=WINDOWS;;
+		*)          MACHINE="UNKNOWN:${unameOut}";OS="$MACHINE";RETURN=1;;
+	esac
+	echo ${OS}
+	return ${RETURN}
+}
+################################################################################
+#
+#	check if windows
+#
+################################################################################
+function iswindows()
+{
+	if OS="$(getOS)"
+	then
+		[ "$OS" == "WINDOWS" ] && return 0 || return 1
+	else
+		return 1
+	fi
+}
+################################################################################
+#
+#	check if linux
+#
+################################################################################
+function islinux()
+{
+	if OS="$(getOS)"
+	then
+		[ "$OS" == "LINUX" ] && return 0 || return 1
+	else
+		return 1
+	fi
+}
+################################################################################
+#
+#	if main
+#
+################################################################################
+
+if [ "$(basename $BASH_SOURCE)" == "$(basename $0)" ]
+then
+	iswindows && echo "windows"
+	islinux && echo "linux"
+fi
+
