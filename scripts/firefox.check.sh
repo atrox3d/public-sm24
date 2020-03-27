@@ -34,11 +34,14 @@ function firefoxcheck()
 	BEARERID="$3"
 	STORENAME="$4"
 	STOREADDRESS="$5"
+	EXECUTE=$6
 	#
 	echo "INFO| LOCATIONID  : $LOCATIONID"
 	echo "INFO| STOREID     : $STOREID"
 	echo "INFO| STORENAME   : $STORENAME"
 	echo "INFO| STOREADDRESS: $STOREADDRESS"
+	echo "INFO| EXECUTE     : $EXECUTE"
+	echo "INFO| DEBUG       : $DEBUG"
 	echo "########################################################################################################"
 	#
 	TEMP_ERR=output/error.json.temp
@@ -178,7 +181,7 @@ function firefoxcheck()
 ########################################################################################################
 DEBUG=echo
 [ $# -gt 5 ] && {
-	[ $4 == EXECUTE ] && {
+	[ $6 == EXECUTE ] && {
 		unset DEBUG
 	}
 }
