@@ -1,7 +1,7 @@
 #!/bin/bash
 ################################################################################
 #
-#	$(basename $BASH_SOURCE) locationID storeID [EXECUTE]
+#	$(basename $BASH_SOURCE) locationID storeID bearerID [EXECUTE]
 #
 ################################################################################
 #
@@ -17,7 +17,7 @@
 DEBUG=echo
 [ $# -gt 3 ] && {
 	[ $4 == EXECUTE ] && {
-		DEBUG=
+		unset DEBUG
 	}
 }
 ########################################################################################################
@@ -25,7 +25,7 @@ DEBUG=echo
 ########################################################################################################
 function syntax()
 {
-	echo "syntax $(basename $BASH_SOURCE) locationID storeID [EXECUTE]"
+	echo "syntax $(basename $BASH_SOURCE) locationID storeID bearerID [EXECUTE]"
 	exit 1
 }
 ########################################################################################################
@@ -36,7 +36,7 @@ function firefoxcheck()
 	########################################################################################################
 	#	Firefox	
 	#	curl check POSIX
-	#	locationID, storeID, [EXECUTE]
+	#	locationID, storeID, bearerID, [EXECUTE]
 	#	con variabili
 	#	ITA
 	########################################################################################################
@@ -122,12 +122,17 @@ function firefoxcheck()
 	########################################################################################################
 	IFS=': ' read -r _ STATUSCODE < <(tail -n1 $TEMP_CHK)
 	JSON="$(head -n-1 $TEMP_CHK)"
+	[ -v DEBUG ] && {
+		STATUSCODE=200
+		JSON='{"DEBUG": true, "STATUSCODE":200}'
+	}
+
 	echo "########################################################################################################"
 	echo "STATUSCODE: $STATUSCODE"
 	echo "JSON      : $JSON"
 	echo "########################################################################################################"
 
-	if [ $STATUSCODE -eq 404 ]
+	if [ "$STATUSCODE" -eq 404 ]
 	then
 		echo "NON CI SONO DISPONIBILITA'"
 		#return
