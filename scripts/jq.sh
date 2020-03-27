@@ -42,8 +42,8 @@ jq -rc \
 '.data.body[]'\
 '| select(.widget_type | contains("vertical-list")).list[]'\
 '| {
-		storeID:.id,
 		locationID:.tracking[].data.location_id,
+		storeID:.id,
 		storeName:.name,
 		storeAddress:.tracking[].data.store_address
 }' \
@@ -55,7 +55,7 @@ jq -rc \
 	#echo "$JQOUT" |  jq -c '[ .storeID, .storeName, .locationID, .storeAddress ]' 
 	#| jq -rc '.[0] + " " + .[1]'
 	#echo "$JQOUT" |  jq -cr '. | "\(.storeID) \(.storeName) \(.locationID) '\''\(.storeAddress)'\''"'
-	echo "$JQOUT" |  jq -cr '. | "\(.storeID) \(.locationID) \(.storeName) \(.storeAddress)"'
+	echo "$JQOUT" |  jq -cr '. | "\(.locationID) \(.storeID) \(.storeName) \(.storeAddress)"'
 } || {
 	echo "$JQOUT"
 }
