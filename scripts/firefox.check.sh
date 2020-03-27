@@ -88,7 +88,7 @@ function firefoxcheck()
 	echo "-H 'X-S24-Country: ITA' \                                                                                          "
 	echo "-H 'X-S24-Client: website/2.0.0-alpha.1' \                                                                         "
 	echo "-H 'Origin: https://www.supermercato24.it' \                                                                       "
-	echo "-H 'Authorization: Bearer 8892de5e7ba5158e3ef52c1db2bfabcc8f4e86de' \                                              "
+	echo "-H 'Authorization: Bearer $BEARERID' \                                              "
 	echo "-H 'Accept: application/json, text/plain, */*' \                                                                   "
 	echo "-H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0' \                   "
 	echo "-H 'Referer: https://www.supermercato24.it/s' \                                                                    "
@@ -123,7 +123,7 @@ function firefoxcheck()
 	-H 'X-S24-Country: ITA' \
 	-H 'X-S24-Client: website/2.0.0-alpha.1' \
 	-H 'Origin: https://www.supermercato24.it' \
-	-H 'Authorization: Bearer 8892de5e7ba5158e3ef52c1db2bfabcc8f4e86de' \
+	-H 'Authorization: Bearer $BEARERID' \
 	-H 'Accept: application/json, text/plain, */*' \
 	-H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0' \
 	-H 'Referer: https://www.supermercato24.it/s' \
