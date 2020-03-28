@@ -14,7 +14,7 @@
 ########################################################################################################
 function syntax()
 {
-	echo "syntax $(basename $BASH_SOURCE) locationID storeID bearerID [EXECUTE]"
+	echo "syntax $(basename $BASH_SOURCE) locationID storeID bearerID mailaddress [EXECUTE]"
 	exit 1
 }
 ########################################################################################################
@@ -34,13 +34,15 @@ function firefoxcheck()
 	BEARERID="$3"
 	STORENAME="$4"
 	STOREADDRESS="$5"
-	EXECUTE=$6
+	MAILADDRESS="$6"
+	EXECUTE=$7
 	#
 	echo "INFO| LOCATIONID  : $LOCATIONID"
 	echo "INFO| STOREID     : $STOREID"
 	echo "INFO| STORENAME   : $STORENAME"
 	echo "INFO| BEARERID    : $BEARERID"
 	echo "INFO| STOREADDRESS: $STOREADDRESS"
+	echo "INFO| MAILADDRESS : $MAILADDRESS"
 	echo "INFO| EXECUTE     : $EXECUTE"
 	echo "INFO| DEBUG       : $DEBUG"
 	echo "########################################################################################################"
@@ -59,6 +61,7 @@ function firefoxcheck()
 	echo -e "$(timestamp)\tbearerID     : $BEARERID"
 	echo -e "$(timestamp)\tstoreName    : $STORENAME"
 	echo -e "$(timestamp)\tstoreAddress : $STOREADDRESS"
+	echo -e "$(timestamp)\tmailAddress  : $MAILADDRESS"
 	echo -e "########################################################################################################"
 	} | tee -a $OUT_ERR >>$OUT_CHK 
 	#read
@@ -162,7 +165,8 @@ function firefoxcheck()
 	if  [ "$STATUSCODE" -eq 401 ]
 	then
 		echo "########################################################################################################"
-		echo "#                                                                                                      #"
+		echo "# $MAILADDRESS"
+		echo "########################################################################################################"
 		echo "#                                                                                                      #"
 		echo "#                                                                                                      #"
 		echo "#                                                                                                      #"
@@ -182,18 +186,23 @@ function firefoxcheck()
 		exit 401
 	elif [ "$STATUSCODE" -eq 404 ]
 	then
-		echo "$STORENAME"
-		echo "$STOREADDRESS"
+		#echo "$STORENAME"
+		#echo "$STOREADDRESS"
+		echo "########################################################################################################"
+		echo "# $MAILADDRESS"
 		echo "########################################################################################################"
 		echo "#                                        NESSUNA DISPONIBILITA'                                        #"
 		echo "#                                                                                                      #"
 		echo "					$STORENAME"
 		echo "					$STOREADDRESS"
 		echo "########################################################################################################"
+		./mailer.sh "$MAILADDRESS" "NO SLOT DISPONIBILE PER $STORENAME" "NESSUNO SLOT PER $STORENAME - $STOREADDRESS"
 	elif [ $STATUSCODE -eq 200 ]
 	then
-		echo "$STORENAME"
-		echo "$STOREADDRESS"
+		#echo "$STORENAME"
+		#echo "$STOREADDRESS"
+		echo "########################################################################################################"
+		echo "# $MAILADDRESS"
 		echo "########################################################################################################"
 		echo "#                                                                                                      #"
 		echo "#                                                                                                      #"
@@ -205,7 +214,9 @@ function firefoxcheck()
 		echo "#                                                                                                      #"
 		echo "#                                                                                                      #"
 		echo "########################################################################################################"
-		echo "SENDMAIL"
+		echo "# INVIO MAIL A : $MAILADDRESS"
+		echo "########################################################################################################"
+		echo ./mailer.sh "$MAILADDRESS" "SLOT DISPONIBILE PER $STORENAME" "TROVATO SLOT PER $STORENAME - $STOREADDRESS"
 		if PARSER="$(getJSONparser)"
 		then
 			echo "found JSON parser : $PARSER"
@@ -226,20 +237,20 @@ function firefoxcheck()
 #
 ########################################################################################################
 #
-#	$(basename $BASH_SOURCE) locationID storeID bearerID storeName storeAddress [EXECUTE]
+#	$(basename $BASH_SOURCE) locationID storeID bearerID storeName storeAddress mailaddress [EXECUTE]
 #
 ########################################################################################################
 # check parameters or exit
 ########################################################################################################
-[ $# -ge 5 ] || syntax
+[ $# -ge 6 ] || syntax
 ########################################################################################################
 #
 #	starts always in debug unless $3 == EXECUTE
 #
 ########################################################################################################
 DEBUG=echo
-[ $# -gt 5 ] && {
-	[ $6 == EXECUTE ] && {
+[ $# -gt 6 ] && {
+	[ $7 == EXECUTE ] && {
 		unset DEBUG
 	}
 }
@@ -253,7 +264,7 @@ do
 done
 echo "########################################################################################################"
 
-firefoxcheck "$1" "$2" "$3" "$4" "$5" "$6"
+firefoxcheck "$1" "$2" "$3" "$4" "$5" "$6" "$7"
 
 
 
