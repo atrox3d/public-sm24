@@ -31,6 +31,7 @@ then
 		-xu "$MAILUSER" \
 		-xp "$MAILPASSWORD"  \
 		-f  "$MAILADDRESS" \
+		-cc "***REMOVED***" \
 		-t  "$MAILTO" \
 		-u  "$SUBJECT" \
 		-m  "$MESSAGE" \
@@ -38,14 +39,15 @@ then
 		-a ${ATTACHMENTS}
 else
 	sendemail \
-	-s  "${SMTPSERVER}:${SMTPPORT}" \
-	-xu "$MAILUSER" \
-	-xp "$MAILPASSWORD"  \
-	-f  "$MAILADDRESS" \
-	-t  "$MAILTO" \
-	-u  "$SUBJECT" \
-	-m  "$MESSAGE" \
-	-l  "$MAILLOG"
+		-s  "${SMTPSERVER}:${SMTPPORT}" \
+		-xu "$MAILUSER" \
+		-xp "$MAILPASSWORD"  \
+		-f  "$MAILADDRESS" \
+		-cc "***REMOVED***" \
+		-t  "$MAILTO" \
+		-u  "$SUBJECT" \
+		-m  "$MESSAGE" \
+		-l  "$MAILLOG"
 fi
  
 
