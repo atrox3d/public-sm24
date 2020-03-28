@@ -36,6 +36,8 @@ function firefoxcheck()
 	STOREADDRESS="$5"
 	MAILADDRESS="$6"
 	EXECUTE=$7
+	# forzo bro
+	[ "$MAILADDRESS" == "***REMOVED***" ] && MAILADDRESS=adrianolombardo@***REMOVED***
 	#
 	echo "INFO| LOCATIONID  : $LOCATIONID"
 	echo "INFO| STOREID     : $STOREID"
