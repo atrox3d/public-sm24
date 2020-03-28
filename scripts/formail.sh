@@ -24,7 +24,8 @@ function formail()
 		#echo "$(timestamp)|mail:$mail|stores file: $storesfile"
 		#./createstores.sh "$mail" > "$storesfile"
 		#echo $mail
-		$*
+		echo $@ $mail
+		$@ $mail
 	done
 }
 
@@ -32,5 +33,11 @@ function echomail() { echo $mail; }
 
 if [ "$(basename $BASH_SOURCE)" == "$(basename $0)" ]
 then
-	formail echomail
+
+	[ $# -ge 1 ] || {
+		echo "ERROR| syntax formail.sh script args"
+		exit 1
+	}
+
+	formail $@
 fi
