@@ -39,6 +39,7 @@ function firefoxcheck()
 	echo "INFO| LOCATIONID  : $LOCATIONID"
 	echo "INFO| STOREID     : $STOREID"
 	echo "INFO| STORENAME   : $STORENAME"
+	echo "INFO| BEARERID    : $BEARERID"
 	echo "INFO| STOREADDRESS: $STOREADDRESS"
 	echo "INFO| EXECUTE     : $EXECUTE"
 	echo "INFO| DEBUG       : $DEBUG"
@@ -117,7 +118,7 @@ function firefoxcheck()
 	# -w '\nHTTP_STATUS: %{http_code}\n' \
 	# --compressed \
 	# 2> >(tee -a $TEMP_ERR) 1> >(tee -a $TEMP_CHK)
-	#$DEBUG
+	$DEBUG \
 	curl "https://api.supermercato24.it/sm/api/v3/locations/$LOCATIONID/stores/$STOREID/availability?funnel=POSTAL_CODE_POPUP" \
 	-H 'Connection: keep-alive' \
 	-H 'X-S24-Country: ITA' \
