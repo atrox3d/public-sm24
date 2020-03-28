@@ -123,7 +123,7 @@ function firefoxcheck()
 	-H 'X-S24-Country: ITA' \
 	-H 'X-S24-Client: website/2.0.0-alpha.1' \
 	-H 'Origin: https://www.supermercato24.it' \
-	-H 'Authorization: Bearer $BEARERID' \
+	-H "Authorization: Bearer $BEARERID" \
 	-H 'Accept: application/json, text/plain, */*' \
 	-H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0' \
 	-H 'Referer: https://www.supermercato24.it/s' \
@@ -158,12 +158,33 @@ function firefoxcheck()
 	echo "JSON      : $JSON"
 	echo "########################################################################################################"
 
-	if [ "$STATUSCODE" -eq 404 ]
+	if  [ "$STATUSCODE" -eq 401 ]
+	then
+		echo "########################################################################################################"
+		echo "#                                                                                                      #"
+		echo "#                                                                                                      #"
+		echo "#                                                                                                      #"
+		echo "#                                                                                                      #"
+		echo "#                                                                                                      #"
+		echo "#                                                                                                      #"
+		echo "#                                        !!!!! UNAUTNORIZED !!!                                        #"
+		echo "#                                        !!!!! UNAUTNORIZED !!!                                        #"
+		echo "#                                        !!!!! UNAUTNORIZED !!!                                        #"
+		echo "#                                        !!!!! UNAUTNORIZED !!!                                        #"
+		echo "#                                                                                                      #"
+		echo "#                                                                                                      #"
+		echo "#                                                                                                      #"
+		echo "#                                                                                                      #"
+		echo "#                                                                                                      #"
+		echo "#                                                                                                      #"
+		echo "########################################################################################################"
+		exit 401
+	elif [ "$STATUSCODE" -eq 404 ]
 	then
 		echo "$STORENAME"
 		echo "$STOREADDRESS"
 		echo "########################################################################################################"
-		echo "#                                        NESSUNA DISPONIBILITA'                                      #"
+		echo "#                                        NESSUNA DISPONIBILITA'                                        #"
 		echo "#                                                                                                      #"
 		echo "					$STORENAME"
 		echo "					$STOREADDRESS"
