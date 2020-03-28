@@ -196,7 +196,7 @@ function firefoxcheck()
 		echo "					$STORENAME"
 		echo "					$STOREADDRESS"
 		echo "########################################################################################################"
-		./mailer.sh "$MAILADDRESS" "NO SLOT DISPONIBILE PER $STORENAME" "NESSUNO SLOT PER $STORENAME - $STOREADDRESS"
+		./mailer.sh "$MAILADDRESS" "$MAILADDRESS - NO SLOT DISPONIBILE PER $STORENAME" "NESSUNO SLOT PER $STORENAME - $STOREADDRESS"
 	elif [ $STATUSCODE -eq 200 ]
 	then
 		#echo "$STORENAME"
@@ -216,7 +216,7 @@ function firefoxcheck()
 		echo "########################################################################################################"
 		echo "# INVIO MAIL A : $MAILADDRESS"
 		echo "########################################################################################################"
-		echo ./mailer.sh "$MAILADDRESS" "SLOT DISPONIBILE PER $STORENAME" "TROVATO SLOT PER $STORENAME - $STOREADDRESS"
+		echo ./mailer.sh "$MAILADDRESS" "$MAILADDRESS - SLOT DISPONIBILE PER $STORENAME" "TROVATO SLOT PER $STORENAME - $STOREADDRESS"
 		if PARSER="$(getJSONparser)"
 		then
 			echo "found JSON parser : $PARSER"
