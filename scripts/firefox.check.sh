@@ -198,7 +198,7 @@ function firefoxcheck()
 		echo "					$STORENAME"
 		echo "					$STOREADDRESS"
 		echo "########################################################################################################"
-		./mailer.sh "$MAILADDRESS" "$MAILADDRESS - NO SLOT DISPONIBILE PER $STORENAME" "NESSUNO SLOT PER $STORENAME - $STOREADDRESS"
+		#./mailer.sh "$MAILADDRESS" "$MAILADDRESS - NO SLOT DISPONIBILE PER $STORENAME" "NESSUNO SLOT PER $STORENAME - $STOREADDRESS"
 	elif [ $STATUSCODE -eq 200 ]
 	then
 		#echo "$STORENAME"
