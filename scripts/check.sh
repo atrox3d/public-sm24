@@ -66,15 +66,3 @@ do
 	sleep 5
 done < "$STORES"
 
-
-
-
-exit
-for mail in ../data/*/
-do
-	mail="$(basename $mail)"
-	storesfile="../data/${mail}/stores"
-	echo "$(timestamp)|mail:$mail|stores file: $storesfile"
-	./createstores.sh "$mail" > "$storesfile"
-done
-
