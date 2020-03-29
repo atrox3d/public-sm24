@@ -1,10 +1,4 @@
 #!/bin/bash
-################################################################################
-#
-#	load include
-#
-################################################################################
-. functions.include
 ########################################################################################################
 # check parameters or exit
 ########################################################################################################
@@ -12,17 +6,61 @@
 	echo "syntax $(basename $BASH_SOURCE) email"
 	exit 1
 }
-
 EMAIL="$1"
-DATADIR=../data/$EMAIL
+################################################################################
+STARTPATH="$(pwd)"
+SCRIPTPATH="$(dirname $(realpath $0))"
+cd "$SCRIPTPATH"
+SCRIPTNAME="$(basename $0)"
+INCLUDE="${SCRIPTPATH}/functions.include"
+CURDIR="$(pwd)"
+DATADIR="${SCRIPTPATH}/../data/$EMAIL"
+LOGDIR="${SCRIPTPATH}/log"
+OUTDIR="${SCRIPTPATH}/output"
+LOGFILE="${LOGDIR}/${EMAIL}.log"
+################################################################################
+#
+#
+#
+#	EXEC
+#
+#
+#
+################################################################################
+exec &> >(tee -a "$LOGFILE")
+#echo "This will be logged to the file and to the screen"
+#exec >> "$LOGFILE"
+#exec 2>&1
+################################################################################
+#
+#	load include
+#
+################################################################################
+. "$INCLUDE" || { echo "ERROR|cannot source $INCLUDE"; exit 1; }
 CREDENTIALS="${DATADIR}/credentials"
 STORES="${DATADIR}/stores"
+########################################################################################################
+#
+# output variables
+#
+########################################################################################################
+echo "INFO| STARTPATH     : $STARTPATH"
+echo "INFO| SCRIPTPATH    : $SCRIPTPATH"
+echo "INFO| SCRIPTNAME    : $SCRIPTNAME"
+echo "INFO| INCLUDE       : $INCLUDE"
+echo "INFO| CURDIR        : $CURDIR"
+echo "INFO| DATADIR       : $DATADIR"
+echo "INFO| LOGDIR        : $LOGDIR"
+echo "INFO| OUTDIR        : $OUTDIR"
+echo "INFO| LOGFILE       : $LOGFILE"
+echo "INFO| MAIL       : $EMAIL"
+echo "INFO| CREDENTIALS   : $CREDENTIALS"
+echo "INFO| STORES        : $STORES"
 ########################################################################################################
 #
 # check execution parameters
 #
 ########################################################################################################
-echo "INFO| MAIL       : $EMAIL"
 #
 [ -d  "$DATADIR" ] || {
 	echo "ERROR| path $DATADIR not found"
