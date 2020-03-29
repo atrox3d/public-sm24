@@ -1,10 +1,5 @@
 #!/bin/bash
 
-#./jq.sh ../opera/out/***REMOVED***.stores.opera.json \
-#	| while read -r a b c d
-#		do echo "$c, $d
-#	done
-
 ################################################################################
 #
 #	load include
@@ -14,11 +9,12 @@
 ########################################################################################################
 # check parameters or exit
 ########################################################################################################
-[ $# -ge 1 ] || {
-	echo "syntax $(basename $BASH_SOURCE) filename [csv]"
+[ $# -ge 2 ] || {
+	echo "syntax $(basename $BASH_SOURCE) filename stores|slots [csv]"
 	exit 1
 }
-CSV=$2
+ACTION=$2
+CSV=$3
 ################################################################################
 #
 #	OS aware filename
@@ -34,23 +30,57 @@ then
 fi
 ################################################################################
 #
-#	extract data
+#	set queries
 #
 ################################################################################
-JQOUT="$(
-jq -rc \
-'.data.body[]'\
+JQSTORES='.data.body[]'\
 '| select(.widget_type | contains("vertical-list")).list[]'\
 '| {
 		locationID:.tracking[].data.location_id,
 		storeID:.id,
 		storeName:.name,
 		storeAddress:.tracking[].data.store_address
-}' \
-"$JSONFILE"
-)"
+}'
+#
+JQSLOTS='.data.data[].hours[] | .label'
+################################################################################
+#
+#	set query
+#
+################################################################################
+JQQUERY=
+case $ACTION in
+	stores)	
+			echo stores;
+			JQQUERY="$JQSTORES";;
+	slots) 
+			echo slots;
+			JQQUERY="$JQSLOTS";;
+	*) 
+			echo ERROR;
+			exit 1;;
+esac
+################################################################################
+#
+#	extract data
+#
+################################################################################
+JQOUT="$( jq -rc "$JQQUERY" "$JSONFILE")"
 
-[ -v CSV ] && {
+#JQOUT="$(
+#jq -rc \
+#'.data.body[]'\
+#'| select(.widget_type | contains("vertical-list")).list[]'\
+#'| {
+#		locationID:.tracking[].data.location_id,
+#		storeID:.id,
+#		storeName:.name,
+#		storeAddress:.tracking[].data.store_address
+#}' \
+#"$JSONFILE"
+#)"
+
+[ -v CSV -a $ACTION == stores ] && {
 	#echo "$JQOUT" |  jq -rc "[ .storeID, .storeName, .locationID, .storeAddress ] | @csv"
 	#echo "$JQOUT" |  jq -c '[ .storeID, .storeName, .locationID, .storeAddress ]' 
 	#| jq -rc '.[0] + " " + .[1]'
