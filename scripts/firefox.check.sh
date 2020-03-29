@@ -49,10 +49,10 @@ function firefoxcheck()
 	echo "INFO| DEBUG       : $DEBUG"
 	echo "########################################################################################################"
 	#
-	TEMP_ERR=output/error.json.temp
-	TEMP_CHK=output/check.json.temp
-	OUT_ERR=output/error.json
-	OUT_CHK=output/check.json
+	TEMP_ERR=output/"${MAILADDRESS}".error.json.temp
+	TEMP_CHK=output/"${MAILADDRESS}".check.json.temp
+	OUT_ERR=output/"${MAILADDRESS}".error.json
+	OUT_CHK=output/"${MAILADDRESS}".check.json
 	########################################################################################################
 	#	log parameters
 	########################################################################################################
