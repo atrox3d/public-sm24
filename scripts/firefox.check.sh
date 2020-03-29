@@ -40,7 +40,8 @@ function firefoxcheck()
 	# forzo bro
 	[ "$MAILADDRESS" == "***REMOVED***" ] && {
 		MAILLOG="$MAILADDRESS"
-		MAILADDRESS=adrianolombardo@***REMOVED***
+		#MAILADDRESS=adrianolombardo@***REMOVED***
+		MAILADDRESS=***REMOVED***
 	} || {
 		MAILLOG="$MAILADDRESS"
 	}
