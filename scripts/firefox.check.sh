@@ -136,6 +136,7 @@ function firefoxcheck()
 	-H 'X-S24-Country: ITA' \
 	-H 'X-S24-Client: website/2.0.0-alpha.1' \
 	-H 'Origin: https://www.supermercato24.it' \
+	-H 'Accept-Language: it-IT,it;q=0.8,en-US;q=0.5,en;q=0.3' \
 	-H "Authorization: Bearer $BEARERID" \
 	-H 'Accept: application/json, text/plain, */*' \
 	-H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0' \
