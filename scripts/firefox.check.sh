@@ -1,7 +1,7 @@
 #!/bin/bash
 ################################################################################
 #
-#	$(basename $BASH_SOURCE) locationID storeID bearerID storeName storeAddress [EXECUTE]
+#	$(basename $BASH_SOURCE) locationID storeID bearerID storeName storeAddress TIMSERIAL [EXECUTE]
 #
 ################################################################################
 #
@@ -35,7 +35,8 @@ function firefoxcheck()
 	STORENAME="$4"
 	STOREADDRESS="$5"
 	MAILADDRESS="$6"
-	EXECUTE=$7
+	TIMESERIAL="$7"
+	EXECUTE=$8
 	# forzo bro
 	[ "$MAILADDRESS" == "***REMOVED***" ] && MAILADDRESS=adrianolombardo@***REMOVED***
 	#
@@ -49,10 +50,10 @@ function firefoxcheck()
 	echo "INFO| DEBUG       : $DEBUG"
 	echo "########################################################################################################"
 	#
-	TEMP_ERR=output/"${MAILADDRESS}".error.json.temp
-	TEMP_CHK=output/"${MAILADDRESS}".check.json.temp
-	OUT_ERR=output/"${MAILADDRESS}".error.json
-	OUT_CHK=output/"${MAILADDRESS}".check.json
+	TEMP_ERR=output/"${MAILADDRESS}"."${TIMESERIAL}".error.json.temp
+	TEMP_CHK=output/"${MAILADDRESS}"."${TIMESERIAL}".check.json.temp
+	OUT_ERR=output/"${MAILADDRESS}"."${TIMESERIAL}".error.json
+	OUT_CHK=output/"${MAILADDRESS}"."${TIMESERIAL}".check.json
 	########################################################################################################
 	#	log parameters
 	########################################################################################################
@@ -244,14 +245,14 @@ function firefoxcheck()
 ########################################################################################################
 # check parameters or exit
 ########################################################################################################
-[ $# -ge 6 ] || syntax
+[ $# -ge 7 ] || syntax
 ########################################################################################################
 #
 #	starts always in debug unless $3 == EXECUTE
 #
 ########################################################################################################
 DEBUG=echo
-[ $# -gt 6 ] && {
+[ $# -gt 7 ] && {
 	[ $7 == EXECUTE ] && {
 		unset DEBUG
 	}
@@ -266,7 +267,8 @@ do
 done
 echo "########################################################################################################"
 
-firefoxcheck "$1" "$2" "$3" "$4" "$5" "$6" "$7"
+firefoxcheck "$@"
+
 
 
 

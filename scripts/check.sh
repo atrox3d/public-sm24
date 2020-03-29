@@ -13,11 +13,19 @@ SCRIPTPATH="$(dirname $(realpath $0))"
 cd "$SCRIPTPATH"
 SCRIPTNAME="$(basename $0)"
 INCLUDE="${SCRIPTPATH}/functions.include"
+################################################################################
+#
+#	load include
+#
+################################################################################
+. "$INCLUDE" || { echo "ERROR|cannot source $INCLUDE"; exit 1; }
+################################################################################
 CURDIR="$(pwd)"
 DATADIR="${SCRIPTPATH}/../data/$EMAIL"
 LOGDIR="${SCRIPTPATH}/log"
 OUTDIR="${SCRIPTPATH}/output"
-LOGFILE="${LOGDIR}/${EMAIL}.log"
+TIMESERIAL="$(timeserial)"
+LOGFILE="${LOGDIR}/${EMAIL}.${TIMESERIAL}.log"
 ################################################################################
 #
 #
@@ -31,12 +39,6 @@ exec &> >(tee -a "$LOGFILE")
 #echo "This will be logged to the file and to the screen"
 #exec >> "$LOGFILE"
 #exec 2>&1
-################################################################################
-#
-#	load include
-#
-################################################################################
-. "$INCLUDE" || { echo "ERROR|cannot source $INCLUDE"; exit 1; }
 CREDENTIALS="${DATADIR}/credentials"
 STORES="${DATADIR}/stores"
 ########################################################################################################
@@ -98,7 +100,15 @@ do
 	echo "INFO| STORENAME   : $STORENAME"
 	echo "INFO| STOREADDRESS: $STOREADDRESS"
 	echo "INFO| ./firefox.check.sh $LOCATIONID $STOREID $BEARERID $STORENAME $STOREADDRESS EXECUTE"
-	./firefox.check.sh "$LOCATIONID" "$STOREID" "$BEARERID" "$STORENAME" "$STOREADDRESS" "$EMAIL" EXECUTE
+	./firefox.check.sh \
+			"$LOCATIONID" \
+			"$STOREID" \
+			"$BEARERID" \
+			"$STORENAME" \
+			"$STOREADDRESS" \
+			"$EMAIL" \
+			"$TIMESERIAL" \
+			EXECUTE
 	SLEEPTIME=5
 	echo "INFO| SLEEP $SLEEPTIME"
 	sleep 5
