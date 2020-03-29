@@ -38,7 +38,12 @@ function firefoxcheck()
 	TIMESERIAL="$7"
 	EXECUTE=$8
 	# forzo bro
-	[ "$MAILADDRESS" == "***REMOVED***" ] && MAILADDRESS=adrianolombardo@***REMOVED***
+	[ "$MAILADDRESS" == "***REMOVED***" ] && {
+		MAILLOG="$MAILADDRESS"
+		MAILADDRESS=adrianolombardo@***REMOVED***
+	} || {
+		MAILLOG="$MAILADDRESS"
+	}
 	#
 	echo "INFO| LOCATIONID  : $LOCATIONID"
 	echo "INFO| STOREID     : $STOREID"
@@ -50,10 +55,10 @@ function firefoxcheck()
 	echo "INFO| DEBUG       : $DEBUG"
 	echo "########################################################################################################"
 	#
-	TEMP_ERR=output/"${MAILADDRESS}"."${TIMESERIAL}".error.json.temp
-	TEMP_CHK=output/"${MAILADDRESS}"."${TIMESERIAL}".check.json.temp
-	OUT_ERR=output/"${MAILADDRESS}"."${TIMESERIAL}".error.json
-	OUT_CHK=output/"${MAILADDRESS}"."${TIMESERIAL}".check.json
+	TEMP_ERR=output/"${MAILLOG}"."${TIMESERIAL}".error.json.temp
+	TEMP_CHK=output/"${MAILLOG}"."${TIMESERIAL}".check.json.temp
+	OUT_ERR=output/"${MAILLOG}"."${TIMESERIAL}".error.json
+	OUT_CHK=output/"${MAILLOG}"."${TIMESERIAL}".check.json
 	########################################################################################################
 	#	log parameters
 	########################################################################################################
