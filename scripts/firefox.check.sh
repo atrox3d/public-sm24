@@ -226,7 +226,7 @@ function firefoxcheck()
 		echo "########################################################################################################"
 		echo "# INVIO MAIL A : $MAILADDRESS"
 		echo "########################################################################################################"
-		./mailer.sh "$MAILADDRESS" "$MAILADDRESS - SLOT DISPONIBILE PER $STORENAME" "TROVATO SLOT PER $STORENAME - $STOREADDRESS"
+		./mailer.sh "$MAILADDRESS" "$MAILADDRESS - SM24 - $STORENAME" "TROVATO SLOT PER $STORENAME - $STOREADDRESS"
 		if PARSER="$(getJSONparser)"
 		then
 			echo "found JSON parser : $PARSER"
