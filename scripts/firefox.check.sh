@@ -222,6 +222,7 @@ function firefoxcheck()
 		echo "########################################################################################################"
 		echo "# INVIO MAIL A : $MAILADDRESS"
 		echo "########################################################################################################"
+		echo ./mailer.sh "$MAILADDRESS" "$MAILADDRESS - SM24 - $STORENAME" "TROVATO SLOT PER $STORENAME - $STOREADDRESS"
 		./mailer.sh "$MAILADDRESS" "$MAILADDRESS - SM24 - $STORENAME" "TROVATO SLOT PER $STORENAME - $STOREADDRESS"
 		if PARSER="$(getJSONparser)"
 		then
@@ -283,12 +284,14 @@ checkparameters $# $MINPARAMS "$(basename $BASH_SOURCE) locationID storeID beare
 #	starts always in debug unless $3 == EXECUTE                                #
 #                                                                              #
 ################################################################################
+setDEBUG ON
 DEBUG=echo
-[ $# -gt $MINPARAMS ] && {
-	[ ${!DEBUGPARAM} == EXECUTE ] && {
-		unset DEBUG
-	}
+#[ $# -gt $MINPARAMS ] && {
+[ "${!DEBUGPARAM}" == "EXECUTE" ] && {
+	setDEBUG OFF
+	unset DEBUG
 }
+#}
 echo "INFO| DEBUG=$DEBUG"
 echo "########################################################################################################"
 echo "script      : $(basename $BASH_SOURCE)"

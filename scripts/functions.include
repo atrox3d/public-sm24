@@ -107,6 +107,26 @@ function checkparameters()
 	return 0
 }
 ################################################################################
+#	setDEBUG                                                                   #
+################################################################################
+unset _ISDEBUG_
+function setDEBUG()
+{
+	case ${1^^} in
+		ON)
+			export _ISDEBUG_=ON;;
+		OFF)
+			export _ISDEBUG_=OFF;;
+	esac
+}
+################################################################################
+#	isDEBUG                                                                   #
+################################################################################
+function isDEBUG()
+{
+	[ "$_ISDEBUG_" == "ON" ]
+}
+################################################################################
 #                                                                              #
 #	if main                                                                    #
 #                                                                              #
@@ -116,5 +136,9 @@ if [ "$(basename $BASH_SOURCE)" == "$(basename $0)" ]
 then
 	iswindows && echo "windows"
 	islinux && echo "linux"
+	
+	isDEBUG && echo "debug" || echo "no debug"
+	setDEBUG ON
+	isDEBUG && echo "debug" || echo "no debug"
 fi
 
