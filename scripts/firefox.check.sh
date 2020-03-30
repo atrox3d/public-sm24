@@ -33,15 +33,18 @@ function firefoxcheck()
 	MAILADDRESS="$6"
 	TIMESERIAL="$7"
 	EXECUTE=$8
-	# forzo bro
+	################################################################################
+	#	forzo bro mail                                                             #
+	################################################################################
 	[ "$MAILADDRESS" == "***REMOVED***" ] && {
 		MAILLOG="$MAILADDRESS"
-		#MAILADDRESS=adrianolombardo@***REMOVED***
 		MAILADDRESS=***REMOVED***
 	} || {
 		MAILLOG="$MAILADDRESS"
 	}
-	#
+	################################################################################
+	#	dump variabili                                                             #
+	################################################################################
 	echo "INFO| LOCATIONID  : $LOCATIONID"
 	echo "INFO| STOREID     : $STOREID"
 	echo "INFO| STORENAME   : $STORENAME"
@@ -56,9 +59,12 @@ function firefoxcheck()
 	TEMP_CHK=output/"${MAILLOG}"."${TIMESERIAL}".check.json.temp
 	OUT_ERR=output/"${MAILLOG}"."${TIMESERIAL}".error.json
 	OUT_CHK=output/"${MAILLOG}"."${TIMESERIAL}".check.json
+	OUT_JSON=output/"${MAILLOG}"."$STORENAME"."${TIMESERIAL}".json
 	################################################################################
 	#	log parameters                                                             #
 	################################################################################
+	echo "INFO| creazione $OUT_ERR"
+	echo "INFO| creazione $OUT_CHK"
 	{
 	echo -e "########################################################################################################"
 	echo -e "$(timestamp)\tlocationID   : $LOCATIONID"
@@ -73,25 +79,10 @@ function firefoxcheck()
 	################################################################################
 	#	print command                                                              #
 	################################################################################
-	[ -v DEBUG ] && {
+	#[ -v DEBUG ] && {
+	isDEBUG && {
 		echo "$DEBUG \\"
 	}
-	#echo "curl 'https://api.supermercato24.it/sm/api/v3/locations/$LOCATIONID/stores/$STOREID/availability?funnel=POSTAL_CODE_POPUP' \ "
-	#echo "-H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0' \ "
-	#echo "-H 'Accept: application/json, text/plain, */*' \ "
-	#echo "-H 'Accept-Language: it-IT,it;q=0.8,en-US;q=0.5,en;q=0.3' \ "
-	#echo "-H 'Referer: https://www.supermercato24.it/s' \ "
-	#echo "-H 'Authorization: Bearer $BEARERID' \ "
-	#echo "-H 'X-S24-Client: website/2.0.0-alpha.1' \ "
-	#echo "-H 'X-S24-Country: ITA' \ "
-	#echo "-H 'Origin: https://www.supermercato24.it' \ "
-	#echo "-H 'Connection: keep-alive' \ "
-	#echo "-H 'Pragma: no-cache' \ "
-	#echo "-H 'Cache-Control: no-cache' \ "
-	#echo "-w '\nHTTP_STATUS: %{http_code}\n' \ "
-	#echo "--compressed \ "
-	#echo "	2> >(tee -a $TEMP_ERR) 1> >(tee -a $TEMP_CHK)"
-	#
 	echo "curl 'https://api.supermercato24.it/sm/api/v3/locations/$LOCATIONID/stores/$STOREID/availability?funnel=POSTAL_CODE_POPUP' \ "
 	echo "-H 'Connection: keep-alive' \                                                                                      "
 	echo "-H 'X-S24-Country: ITA' \                                                                                          "
@@ -109,23 +100,9 @@ function firefoxcheck()
 	################################################################################
 	#	run command                                                                #
 	################################################################################
-	#OUTPUT="$(
-	# $DEBUG \
-	# curl "https://api.supermercato24.it/sm/api/v3/locations/$LOCATIONID/stores/$STOREID/availability?funnel=POSTAL_CODE_POPUP" \
-	# -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0' \
-	# -H 'Accept: application/json, text/plain, */*' \
-	# -H 'Accept-Language: it-IT,it;q=0.8,en-US;q=0.5,en;q=0.3' \
-	# -H 'Referer: https://www.supermercato24.it/s' \
-	# -H "Authorization: Bearer $BEARERID" \
-	# -H 'X-S24-Client: website/2.0.0-alpha.1' \
-	# -H 'X-S24-Country: ITA' \
-	# -H 'Origin: https://www.supermercato24.it' \
-	# -H 'Connection: keep-alive' \
-	# -H 'Pragma: no-cache' \
-	# -H 'Cache-Control: no-cache' \
-	# -w '\nHTTP_STATUS: %{http_code}\n' \
-	# --compressed \
-	# 2> >(tee -a $TEMP_ERR) 1> >(tee -a $TEMP_CHK)
+	echo "INFO| creazione $TEMP_ERR"
+	echo "INFO| creazione $TEMP_CHK"
+	echo "INFO| creazione $OUT_JSON"
 	$DEBUG \
 	curl "https://api.supermercato24.it/sm/api/v3/locations/$LOCATIONID/stores/$STOREID/availability?funnel=POSTAL_CODE_POPUP" \
 	-H 'Connection: keep-alive' \
@@ -151,23 +128,41 @@ function firefoxcheck()
 	################################################################################
 	#	update log files                                                           #
 	################################################################################
+	echo "INFO| update $TEMP_ERR"
+	echo "INFO| update $TEMP_CHK"
 	cat $TEMP_CHK >> $OUT_CHK
 	cat $TEMP_ERR >> $OUT_ERR
 	################################################################################
 	#	extract data                                                               #
 	################################################################################
+	echo "INFO| estrazione STATUS_CODE"
 	IFS=': ' read -r _ STATUSCODE < <(tail -n1 $TEMP_CHK)
+	#
+	echo "INFO| estrazione JSON"
 	JSON="$(head -n-1 $TEMP_CHK)"
-	[ -v DEBUG ] && {
+	#
+	echo "INFO| update $OUT_JSON"
+	echo "$JSON" > "$OUT_JSON"
+	#
+	#[ -v DEBUG ] && {
+	isDEBUG && {
+		echo "DEBUG| forzatura JSON, STATUSCODE"
 		STATUSCODE=200
 		JSON='{"DEBUG": true, "STATUSCODE":200}'
 	}
-
 	echo "########################################################################################################"
 	echo "STATUSCODE: $STATUSCODE"
 	echo "JSON      : $JSON"
 	echo "########################################################################################################"
-
+	################################################################################
+	#                                                                              #
+	#                                                                              #
+	#                                                                              #
+	#	STATUSCODE evaluation                                                      #
+	#                                                                              #
+	#                                                                              #
+	#                                                                              #
+	################################################################################
 	if  [ "$STATUSCODE" -eq 401 ]
 	then
 		echo "########################################################################################################"
