@@ -63,18 +63,18 @@ function firefoxcheck()
 	################################################################################
 	#	log parameters                                                             #
 	################################################################################
-	echo "INFO| creazione $OUT_ERR"
-	echo "INFO| creazione $OUT_CHK"
-	{
-	echo -e "########################################################################################################"
-	echo -e "$(timestamp)\tlocationID   : $LOCATIONID"
-	echo -e "$(timestamp)\tstoreID      : $STOREID"
-	echo -e "$(timestamp)\tbearerID     : $BEARERID"
-	echo -e "$(timestamp)\tstoreName    : $STORENAME"
-	echo -e "$(timestamp)\tstoreAddress : $STOREADDRESS"
-	echo -e "$(timestamp)\tmailAddress  : $MAILADDRESS"
-	echo -e "########################################################################################################"
-	} | tee -a $OUT_ERR >>$OUT_CHK 
+	#echo "INFO| creazione $OUT_ERR"
+	#echo "INFO| creazione $OUT_CHK"
+	#{
+	#echo -e "########################################################################################################"
+	#echo -e "$(timestamp)\tlocationID   : $LOCATIONID"
+	#echo -e "$(timestamp)\tstoreID      : $STOREID"
+	#echo -e "$(timestamp)\tbearerID     : $BEARERID"
+	#echo -e "$(timestamp)\tstoreName    : $STORENAME"
+	#echo -e "$(timestamp)\tstoreAddress : $STOREADDRESS"
+	#echo -e "$(timestamp)\tmailAddress  : $MAILADDRESS"
+	#echo -e "########################################################################################################"
+	#} | tee -a $OUT_ERR >>$OUT_CHK 
 	#read
 	################################################################################
 	#	print command                                                              #
@@ -128,10 +128,10 @@ function firefoxcheck()
 	################################################################################
 	#	update log files                                                           #
 	################################################################################
-	echo "INFO| update $TEMP_ERR"
-	echo "INFO| update $TEMP_CHK"
-	cat $TEMP_CHK >> $OUT_CHK
-	cat $TEMP_ERR >> $OUT_ERR
+	#echo "INFO| update $OUT_CHK"
+	#echo "INFO| update $OUT_ERR"
+	#cat $TEMP_CHK >> $OUT_CHK
+	#cat $TEMP_ERR >> $OUT_ERR
 	################################################################################
 	#	extract data                                                               #
 	################################################################################
