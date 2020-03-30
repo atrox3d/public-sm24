@@ -84,6 +84,29 @@ function getJSONparser()
 	return 0
 }
 ################################################################################
+#	checkparameters                                                            #
+#		num_params                                                             #
+#		min_params                                                             #
+#		syntax                                                                 #
+################################################################################
+function checkparameters()
+{
+	[ $# -ge 3 ] || { 
+		echo "FATAL| syntax checkparameters num_params min_params syntax"
+		exit 1
+	}
+	
+	num_params=$1
+	min_params=$2
+	syntax="$3"
+	
+	[ $num_params -ge $min_params ] || {
+		echo "ERROR| syntax $syntax"
+		return 1
+	}
+	return 0
+}
+################################################################################
 #                                                                              #
 #	if main                                                                    #
 #                                                                              #

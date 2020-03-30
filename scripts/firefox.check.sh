@@ -15,7 +15,13 @@ function firefoxcheck()
 	################################################################################
 	#	Firefox	                                                                   #
 	#	curl check POSIX                                                           #
-	#	locationID storeID bearerID storeName storeAddress TIMSERIAL [EXECUTE]     #
+	#		locationID                                                             #
+	#		storeID                                                                #
+	#		bearerID                                                               #
+	#		storeName                                                              #
+	#		storeAddress                                                           #
+	#		mailaddress                                                            #
+	#		[EXECUTE]                                                              #
 	#	con variabili                                                              #
 	#	ITA                                                                        #
 	################################################################################
@@ -264,20 +270,22 @@ function firefoxcheck()
 #	load include                                                               #
 #                                                                              #
 ################################################################################
-. functions.include                                                            #
+. functions.include
 ################################################################################
 # check parameters or exit                                                     #
 ################################################################################
-MINPARAMS=7                                                                    #
-[ $# -ge 7 ] || syntax                                                         #
+MINPARAMS=7
+DEBUGPARAM=$((MINPARAMS+1))
+
+checkparameters $# $MINPARAMS "$(basename $BASH_SOURCE) locationID storeID bearerID storeName storeAddress mailAddress timeSerial [EXECUTE]"
 ################################################################################
 #                                                                              #
 #	starts always in debug unless $3 == EXECUTE                                #
 #                                                                              #
 ################################################################################
 DEBUG=echo
-[ $# -gt 7 ] && {
-	[ $8 == EXECUTE ] && {
+[ $# -gt $MINPARAMS ] && {
+	[ ${!DEBUGPARAM} == EXECUTE ] && {
 		unset DEBUG
 	}
 }
