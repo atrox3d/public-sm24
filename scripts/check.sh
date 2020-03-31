@@ -1,7 +1,7 @@
 #!/bin/bash
-########################################################################################################
-# check parameters or exit
-########################################################################################################
+################################################################################
+# check parameters or exit                                                     #
+################################################################################
 [ $# -ge 1 ] || {
 	echo "syntax $(basename $BASH_SOURCE) email"
 	exit 1
@@ -14,9 +14,9 @@ cd "$SCRIPTPATH"
 SCRIPTNAME="$(basename $0)"
 INCLUDE="${SCRIPTPATH}/functions.include"
 ################################################################################
-#
-#	load include
-#
+#                                                                              #
+#	load include                                                               #
+#                                                                              #
 ################################################################################
 . "$INCLUDE" || { echo "ERROR|cannot source $INCLUDE"; exit 1; }
 ################################################################################
@@ -27,13 +27,13 @@ OUTDIR="${SCRIPTPATH}/output"
 TIMESERIAL="$(timeserial)"
 LOGFILE="${LOGDIR}/${EMAIL}.${TIMESERIAL}.log"
 ################################################################################
-#
-#
-#
-#	EXEC
-#
-#
-#
+#                                                                              #
+#                                                                              #
+#                                                                              #
+#	EXEC                                                                       #
+#                                                                              #
+#                                                                              #
+#                                                                              #
 ################################################################################
 exec &> >(tee -a "$LOGFILE")
 #echo "This will be logged to the file and to the screen"
@@ -41,11 +41,11 @@ exec &> >(tee -a "$LOGFILE")
 #exec 2>&1
 CREDENTIALS="${DATADIR}/credentials"
 STORES="${DATADIR}/stores"
-########################################################################################################
-#
-# output variables
-#
-########################################################################################################
+################################################################################
+#                                                                              #
+# output variables                                                             #
+#                                                                              #
+################################################################################
 echo "INFO| STARTPATH     : $STARTPATH"
 echo "INFO| SCRIPTPATH    : $SCRIPTPATH"
 echo "INFO| SCRIPTNAME    : $SCRIPTNAME"
@@ -58,11 +58,11 @@ echo "INFO| LOGFILE       : $LOGFILE"
 echo "INFO| MAIL       : $EMAIL"
 echo "INFO| CREDENTIALS   : $CREDENTIALS"
 echo "INFO| STORES        : $STORES"
-########################################################################################################
-#
-# check execution parameters
-#
-########################################################################################################
+################################################################################
+#                                                                              #
+# check execution parameters                                                   #
+#                                                                              #
+################################################################################
 #
 [ -d  "$DATADIR" ] || {
 	echo "ERROR| path $DATADIR not found"
@@ -84,22 +84,34 @@ echo "INFO| CREDENTIALS: $CREDENTIALS: OK"
 	exit 4
 }
 echo "INFO| STORES     : $STORES      : OK"
-########################################################################################################
-#
-# parse credentials
-#
-########################################################################################################
+################################################################################
+#                                                                              #
+# parse credentials                                                            #
+#                                                                              #
+################################################################################
 #
 read -r _email _password BEARERID < "$CREDENTIALS"
 echo "INFO| BEARERID   : $BEARERID"
-#
+################################################################################
+#                                                                              #
+#	MAIN LOOP                                                                  #
+#                                                                              #
+################################################################################
 while read -r LOCATIONID STOREID STORENAME STOREADDRESS
 do
 	echo "INFO| LOCATIONID  : $LOCATIONID"
 	echo "INFO| STOREID     : $STOREID"
 	echo "INFO| STORENAME   : $STORENAME"
 	echo "INFO| STOREADDRESS: $STOREADDRESS"
-	echo "INFO| ./firefox.check.sh $LOCATIONID $STOREID $BEARERID $STORENAME $STOREADDRESS EXECUTE"
+	#
+	echo "INFO| ./firefox.check.sh \
+					$LOCATIONID \
+					$STOREID \
+					$BEARERID \
+					$STORENAME \
+					$STOREADDRESS \
+					EXECUTE"
+	#
 	./firefox.check.sh \
 			"$LOCATIONID" \
 			"$STOREID" \
@@ -113,4 +125,5 @@ do
 	echo "INFO| SLEEP $SLEEPTIME"
 	sleep 5
 done < "$STORES"
+
 
