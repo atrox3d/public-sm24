@@ -1,12 +1,8 @@
 #!/bin/bash
 ################################################################################
-# check parameters or exit                                                     #
-################################################################################
-[ $# -ge 1 ] || {
-	echo "syntax $(basename $BASH_SOURCE) email"
-	exit 1
-}
-EMAIL="$1"
+#                                                                              #
+#	load include                                                               #
+#                                                                              #
 ################################################################################
 STARTPATH="$(pwd)"
 SCRIPTPATH="$(dirname $(realpath $0))"
@@ -20,6 +16,21 @@ INCLUDE="${SCRIPTPATH}/functions.include"
 ################################################################################
 . "$INCLUDE" || { echo "ERROR|cannot source $INCLUDE"; exit 1; }
 ################################################################################
+#                                                                              #
+# check parameters or exit                                                     #
+#                                                                              #
+################################################################################
+#[ $# -ge 1 ] || {
+#	echo "syntax $(basename $BASH_SOURCE) email"
+#	exit 1
+#}
+checkparameters $# 1 "$(basename $BASH_SOURCE) email"
+EMAIL="$1"
+################################################################################
+#                                                                              #
+#	SET VARIABLES                                                              #
+#                                                                              #
+################################################################################
 CURDIR="$(pwd)"
 DATADIR="${SCRIPTPATH}/../data/$EMAIL"
 LOGDIR="${SCRIPTPATH}/log"
@@ -32,13 +43,16 @@ LOGFILE="${LOGDIR}/${EMAIL}.${TIMESERIAL}.log"
 #                                                                              #
 #	EXEC                                                                       #
 #                                                                              #
+#	echo "This will be logged to the file and to the screen"                   #
+#	exec >> "$LOGFILE"                                                         #
+#	exec 2>&1                                                                  #
 #                                                                              #
 #                                                                              #
 ################################################################################
+echo "########################################################################################################"
+echo "redirecting to STDOUT and $LOGFILE"
+echo "########################################################################################################"
 exec &> >(tee -a "$LOGFILE")
-#echo "This will be logged to the file and to the screen"
-#exec >> "$LOGFILE"
-#exec 2>&1
 CREDENTIALS="${DATADIR}/credentials"
 STORES="${DATADIR}/stores"
 ################################################################################
@@ -136,4 +150,9 @@ do
 	sleep 5
 done < "$STORES"
 
-
+#echo for file in "${OUTDIR}"/"${EMAIL}".*.*."${TIMESERIAL}".json
+for file in "${OUTDIR}"/"${EMAIL}".*.200."${TIMESERIAL}".json
+do
+	[ -f "$file" ] || continue
+	echo $file
+done
