@@ -1,7 +1,7 @@
 #!/bin/bash
 . functions.include
 
-for mail in ../data/*/
+for mail in ../../data/*/
 do
 	mail="$(basename $mail)"
 	storesfile="../data/${mail}/stores"

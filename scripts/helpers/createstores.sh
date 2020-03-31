@@ -12,7 +12,7 @@
 EMAIL="$1"
 
 
-DATADIR=../data/$EMAIL
+DATADIR="../../data/$EMAIL"
 JSONDIR="${DATADIR}/json"
 DATAFILE="${JSONDIR}/stores.json"
 
