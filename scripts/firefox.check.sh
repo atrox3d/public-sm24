@@ -133,17 +133,18 @@ function firefoxcheck()
 	#cat $TEMP_CHK >> $OUT_CHK
 	#cat $TEMP_ERR >> $OUT_ERR
 	################################################################################
-	#	extract data                                                               #
+	#	extract STATUSCODE                                                         #
 	################################################################################
 	echo "INFO| estrazione STATUS_CODE"
 	IFS=': ' read -r _ STATUSCODE < <(tail -n1 $TEMP_CHK)
-	#
+	################################################################################
+	#	extract JSON                                                               #
+	################################################################################
 	echo "INFO| estrazione JSON"
 	JSON="$(head -n-1 $TEMP_CHK)"
-	#
-	echo "INFO| update $OUT_JSON"
-	echo "$JSON" > "$OUT_JSON"
-	#
+	################################################################################
+	#	DEBUG force status code                                                    #
+	################################################################################
 	#[ -v DEBUG ] && {
 	isDEBUG && {
 		echo "DEBUG| forzatura JSON, STATUSCODE"
@@ -184,7 +185,8 @@ function firefoxcheck()
 		echo "#                                                                                                      #"
 		echo "#                                                                                                      #"
 		echo "########################################################################################################"
-		exit 401
+		#echo ./mailer.sh "$MAILADDRESS" "$MAILADDRESS - SM24 - UNAUTHORIZED - $STORENAME" "ERRORE 401 su $STORENAME"
+		#./mailer.sh "$MAILADDRESS" "$MAILADDRESS - SM24 - UNAUTHORIZED - $STORENAME" "ERRORE 401 su $STORENAME"
 	elif [ "$STATUSCODE" -eq 404 ]
 	then
 		#echo "$STORENAME"
@@ -217,17 +219,37 @@ function firefoxcheck()
 		echo "########################################################################################################"
 		echo "# INVIO MAIL A : $MAILADDRESS"
 		echo "########################################################################################################"
-		echo ./mailer.sh "$MAILADDRESS" "$MAILADDRESS - SM24 - $STORENAME" "TROVATO SLOT PER $STORENAME - $STOREADDRESS"
-		./mailer.sh "$MAILADDRESS" "$MAILADDRESS - SM24 - $STORENAME" "TROVATO SLOT PER $STORENAME - $STOREADDRESS"
-		if PARSER="$(getJSONparser)"
-		then
-			echo "found JSON parser : $PARSER"
-		else
-			echo "no JSON parser"
-		fi
 	else
 		echo "WARNING | unknown status: $STATUSCODE" >> $OUT_CHK
 	fi
+	################################################################################
+	#	update json                                                                #
+	################################################################################
+	OUT_JSON=output/"${MAILLOG}"."$STORENAME"."$STATUSCODE"."${TIMESERIAL}".json
+	echo "INFO| update $OUT_JSON"
+	echo "$JSON" > "$OUT_JSON"
+	################################################################################
+	#	STATUSCODE 200                                                             #
+	################################################################################
+	#if [ $STATUSCODE -eq 200 ]
+	#then
+	#	echo ./mailer.sh \
+	#			"$MAILADDRESS" \
+	#			"$MAILADDRESS - SM24 - $STORENAME" \
+	#			"TROVATO SLOT PER $STORENAME - $STOREADDRESS"
+	#	#
+	#	./mailer.sh \
+	#		"$MAILADDRESS" \
+	#		"$MAILADDRESS - SM24 - $STORENAME" \
+	#		"TROVATO SLOT PER $STORENAME - $STOREADDRESS"
+	#	#
+	#	if PARSER="$(getJSONparser)"
+	#	then
+	#		echo "found JSON parser : $PARSER"
+	#	else
+	#		echo "no JSON parser"
+	#	fi
+	#fi
 	################################################################################
 	#	remove temp files                                                          #
 	################################################################################
