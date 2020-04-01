@@ -52,5 +52,7 @@ done > "$MAILPATTERN"
 	./mailer.sh "$EMAIL" "$EMAIL - SM24" "$(cat $MAILPATTERN)"
 } || {
 	echo "INFO| nessuno slot trovato"
+	echo "INFO| cancellazione $MAILPATTERN"
+	rm "$MAILPATTERN"
 }
 
