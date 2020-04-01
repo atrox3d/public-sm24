@@ -45,3 +45,6 @@ do
 done > "$MAILPATTERN"
 
 cat "$MAILPATTERN"
+
+./mailer.sh "$EMAIL" "$EMAIL - SM24" "$(cat $MAILPATTERN)"
+
