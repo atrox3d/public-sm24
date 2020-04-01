@@ -80,9 +80,20 @@ esac
 
 for scope in "${SCOPES[@]}"
 do
+	#echo "INFO| current scope : $scope"
+	#FILESTODELETE="${scope}/*${TIMESERIAL_YESTERDAY}*"
+	#echo "INFO| FILESTODELETE : $(echo $FILESTODELETE)"
+	#rm $FILESTODELETE || echo "ERROR| deleting files"
 	echo "INFO| current scope : $scope"
-	FILESTODELETE="${scope}/*${TIMESERIAL_YESTERDAY}*"
-	echo "INFO| FILESTODELETE : $(echo $FILESTODELETE)"
-	rm $FILESTODELETE || echo "ERROR| deleting files"
+	PATTERN="${scope}/*${TIMESERIAL_YESTERDAY}*"
+	DESTDIR="${scope}/${TIMESERIAL_YESTERDAY}"
+	for file in $PATTERN
+	do
+		[ -f "$file" ] || continue
+		echo $file
+		mkdir -p "$DESTDIR" || echo "ERROR| cannot create $DESTDIR"
+		mv "$file" "$DESTDIR"
+	done
+	
 done
 
