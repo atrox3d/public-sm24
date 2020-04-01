@@ -26,11 +26,13 @@ MAILPATTERN="${OUTDIR}"/"${EMAIL}"."${TIMESERIAL}".mail
 echo "INFO| OUTDIR    : $OUTDIR"
 echo "INFO| EMAIL     : $EMAIL"
 echo "INFO| TIMESERIAL: $TIMESERIAL"
-echo "INFO| PATTERN   ; $PATTERN"
+echo "INFO| PATTERN   : $PATTERN"
 
+SENDMAIL=OFF
 for file in $PATTERN
 do
 	[ -f "$file" ] || continue
+	SENDMAIL=ON
 	#echo "DEBUG| $file" >&2
 	#
 	#	extract store
@@ -44,7 +46,11 @@ do
 	echo
 done > "$MAILPATTERN"
 
-cat "$MAILPATTERN"
-
-./mailer.sh "$EMAIL" "$EMAIL - SM24" "$(cat $MAILPATTERN)"
+[ $SENDMAIL == ON ] && {
+	echo "INFO| trovati slots, mando mail"
+	echo "INFO| " ./mailer.sh "$EMAIL" "$EMAIL - SM24" "$(cat $MAILPATTERN)"
+	./mailer.sh "$EMAIL" "$EMAIL - SM24" "$(cat $MAILPATTERN)"
+} || {
+	echo "INFO| nessuno slot trovato"
+}
 

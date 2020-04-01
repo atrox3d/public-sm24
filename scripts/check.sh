@@ -150,9 +150,11 @@ do
 	sleep 5
 done < "$STORES"
 
-#echo for file in "${OUTDIR}"/"${EMAIL}".*.*."${TIMESERIAL}".json
-for file in "${OUTDIR}"/"${EMAIL}".*.200."${TIMESERIAL}".json
-do
-	[ -f "$file" ] || continue
-	echo $file
-done
+echo "${SCRIPTPATH}/json2mail.sh" "$OUTDIR" "$EMAIL" "$TIMESERIAL"
+"${SCRIPTPATH}/json2mail.sh" "$OUTDIR" "$EMAIL" "$TIMESERIAL"
+##echo for file in "${OUTDIR}"/"${EMAIL}".*.*."${TIMESERIAL}".json
+#for file in "${OUTDIR}"/"${EMAIL}".*.200."${TIMESERIAL}".json
+#do
+#	[ -f "$file" ] || continue
+#	echo $file
+#done
