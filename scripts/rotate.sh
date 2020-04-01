@@ -81,5 +81,8 @@ esac
 for scope in "${SCOPES[@]}"
 do
 	echo "INFO| current scope : $scope"
+	FILESTODELETE="${scope}/*${TIMESERIAL_YESTERDAY}*"
+	echo "INFO| FILESTODELETE : $(echo $FILESTODELETE)"
+	rm $FILESTODELETE || echo "ERROR| deleting files"
 done
 
