@@ -19,12 +19,23 @@ INCLUDE="${SCRIPTPATH}/functions.include"
 checkparameters $# 3 "$(basename $BASH_SOURCE) OUTDIR EMAIL TIMESERIAL"
 OUTDIR="$1"
 EMAIL="$2"
+################################################################################
+#	forzo bro mail                                                             #
+################################################################################
+[ "$EMAIL" == "***REMOVED***" ] && {
+	MAILLOG="$EMAIL"
+	EMAIL=***REMOVED***
+} || {
+	MAILLOG="$EMAIL"
+}
+################################################################################
 TIMESERIAL="$3"
-PATTERN="${OUTDIR}"/"${EMAIL}".*.200."${TIMESERIAL}".json
-MAILPATTERN="${OUTDIR}"/"${EMAIL}"."${TIMESERIAL}".mail
+PATTERN="${OUTDIR}"/"${MAILLOG}".*.200."${TIMESERIAL}".json
+MAILPATTERN="${OUTDIR}"/"${MAILLOG}"."${TIMESERIAL}".mail
 
 echo "INFO| OUTDIR    : $OUTDIR"
 echo "INFO| EMAIL     : $EMAIL"
+echo "INFO| MAILLOG   : $MAILLOG"
 echo "INFO| TIMESERIAL: $TIMESERIAL"
 echo "INFO| PATTERN   : $PATTERN"
 
@@ -42,7 +53,7 @@ do
 	#	removing email from filename
 	#	to avoid parsing email's dots
 	#
-	filename=${filename#${EMAIL}.}
+	filename=${filename#${MAILLOG}.}
 	#IFS=. read -r mail domain STORE status date timestamp <<< "$filename"
 	IFS=. read -r STORE status date timestamp <<< "$filename"
 	echo $STORE
