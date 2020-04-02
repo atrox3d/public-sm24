@@ -58,7 +58,8 @@ do
 	IFS=. read -r STORE status date timestamp <<< "$filename"
 	echo $STORE
 	echo
-	cat $file | jq '.data.data[].hours[] | .label'
+	#cat $file | jq '.data.data[].hours[] | .label'
+	cat $file | jq '.data.data[]| { "lbl": .label, "hrs": .hours[].time_label } | "\(.lbl) \(.hrs)"'
 	echo
 done > "$MAILPATTERN"
 
