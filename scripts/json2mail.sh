@@ -38,8 +38,13 @@ do
 	#	extract store
 	#
 	filename="$(basename $file)"
-	#echo "$filename"
-	IFS=. read -r mail domain STORE status date timestamp <<< "$filename"
+	#
+	#	removing email from filename
+	#	to avoid parsing email's dots
+	#
+	filename=${filename#${EMAIL}.}
+	#IFS=. read -r mail domain STORE status date timestamp <<< "$filename"
+	IFS=. read -r STORE status date timestamp <<< "$filename"
 	echo $STORE
 	echo
 	cat $file | jq '.data.data[].hours[] | .label'
