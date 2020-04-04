@@ -4,13 +4,18 @@
 #	| while read -r a b c d
 #		do echo "$c, $d
 #	done
-
+STARTPATH="$(pwd)"
+SCRIPTPATH="$(dirname $(realpath $0))"
+cd "$SCRIPTPATH"
+SCRIPTNAME="$(basename $0)"
+INCLUDEPATH="${SCRIPTPATH}/include"
+INCLUDE="${INCLUDEPATH}/functions.include"
 ################################################################################
-#
-#	load include
-#
+#                                                                              #
+#	load include                                                               #
+#                                                                              #
 ################################################################################
-. functions.include
+. "$INCLUDE" || { echo "ERROR|cannot source $INCLUDE"; exit 1; }
 ########################################################################################################
 # check parameters or exit
 ########################################################################################################

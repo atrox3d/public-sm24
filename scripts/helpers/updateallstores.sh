@@ -1,5 +1,16 @@
 #!/bin/bash
-. functions.include
+STARTPATH="$(pwd)"
+SCRIPTPATH="$(dirname $(realpath $0))"
+cd "$SCRIPTPATH"
+SCRIPTNAME="$(basename $0)"
+INCLUDEPATH="${SCRIPTPATH}/include"
+INCLUDE="${INCLUDEPATH}/functions.include"
+################################################################################
+#                                                                              #
+#	load include                                                               #
+#                                                                              #
+################################################################################
+. "$INCLUDE" || { echo "ERROR|cannot source $INCLUDE"; exit 1; }
 
 for mail in ../../data/*/
 do
