@@ -8,7 +8,8 @@ STARTPATH="$(pwd)"
 SCRIPTPATH="$(dirname $(realpath $0))"
 cd "$SCRIPTPATH"
 SCRIPTNAME="$(basename $0)"
-INCLUDE="${SCRIPTPATH}/functions.include"
+INCLUDEPATH="${SCRIPTPATH}/include"
+INCLUDE="${INCLUDEPATH}/functions.include"
 ################################################################################
 #                                                                              #
 #	load include                                                               #
