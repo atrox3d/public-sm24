@@ -97,7 +97,7 @@ function getJSONparser()
 function checkparameters()
 {
 	[ $# -ge 3 ] || { 
-		echo "FATAL| syntax checkparameters num_params min_params syntax"
+		fatal "syntax checkparameters num_params min_params syntax"
 		exit 1
 	}
 	
@@ -106,7 +106,7 @@ function checkparameters()
 	syntax="$3"
 	
 	[ $num_params -ge $min_params ] || {
-		echo "ERROR| syntax $syntax"
+		error "syntax $syntax"
 		return 1
 	}
 	return 0
