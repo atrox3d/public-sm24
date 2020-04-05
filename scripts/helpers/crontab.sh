@@ -1,8 +1,9 @@
 #!/bin/bash
 SCRIPTPATH="$(dirname $(realpath $0))"
-INCLUDE="${SCRIPTPATH}/../include/functions.include"
-LOGDIR="${SCRIPTPATH}/../log"
+INCLUDE="$(realpath ${SCRIPTPATH}/../include/functions.include)"
+LOGDIR="$(realpath ${SCRIPTPATH}/../log)"
 
-. "$INCLUDE"
-echo "$(timestamp) - $LOGDIR" 2>&1 | tee -a "${LOGDIR}/crontab.log"
+. "$INCLUDE" ||  { echo "ERROR|cannot source $INCLUDE" | tee -a "${LOGDIR}/crontab.log"; exit 1; }
+
+info "$LOGDIR" 2>&1 | tee -a "${LOGDIR}/crontab.log"
 
