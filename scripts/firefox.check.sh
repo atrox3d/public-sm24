@@ -4,7 +4,7 @@
 ################################################################################
 function syntax()
 {
-	echo "syntax $(basename $BASH_SOURCE) locationID storeID bearerID storeName storeAddress TIMSERIAL [EXECUTE]"
+	fatal "syntax $(basename $BASH_SOURCE) locationID storeID bearerID storeName storeAddress TIMSERIAL [EXECUTE]"
 	exit 1
 }
 ################################################################################
@@ -45,15 +45,15 @@ function firefoxcheck()
 	################################################################################
 	#	dump variabili                                                             #
 	################################################################################
-	echo "INFO| LOCATIONID  : $LOCATIONID"
-	echo "INFO| STOREID     : $STOREID"
-	echo "INFO| STORENAME   : $STORENAME"
-	echo "INFO| BEARERID    : $BEARERID"
-	echo "INFO| STOREADDRESS: $STOREADDRESS"
-	echo "INFO| MAILADDRESS : $MAILADDRESS"
-	echo "INFO| EXECUTE     : $EXECUTE"
-	echo "INFO| DEBUG       : $DEBUG"
-	echo "########################################################################################################"
+	info "LOCATIONID  : $LOCATIONID"
+	info "STOREID     : $STOREID"
+	info "STORENAME   : $STORENAME"
+	info "BEARERID    : $BEARERID"
+	info "STOREADDRESS: $STOREADDRESS"
+	info "MAILADDRESS : $MAILADDRESS"
+	info "EXECUTE     : $EXECUTE"
+	info "DEBUG       : $DEBUG"
+	info "#######################################################################################"
 	#
 	TEMP_ERR=output/"${MAILLOG}"."${TIMESERIAL}".error.json.temp
 	TEMP_CHK=output/"${MAILLOG}"."${TIMESERIAL}".check.json.temp
@@ -100,9 +100,9 @@ function firefoxcheck()
 	################################################################################
 	#	run command                                                                #
 	################################################################################
-	echo "INFO| creazione $TEMP_ERR"
-	echo "INFO| creazione $TEMP_CHK"
-	echo "INFO| creazione $OUT_JSON"
+	info "creazione $TEMP_ERR"
+	info "creazione $TEMP_CHK"
+	info "creazione $OUT_JSON"
 	$DEBUG \
 	curl "https://api.supermercato24.it/sm/api/v3/locations/$LOCATIONID/stores/$STOREID/availability?funnel=POSTAL_CODE_POPUP" \
 	-H 'Connection: keep-alive' \
@@ -135,26 +135,26 @@ function firefoxcheck()
 	################################################################################
 	#	extract STATUSCODE                                                         #
 	################################################################################
-	echo "INFO| estrazione STATUS_CODE"
+	info "estrazione STATUS_CODE"
 	IFS=': ' read -r _ STATUSCODE < <(tail -n1 $TEMP_CHK)
 	################################################################################
 	#	extract JSON                                                               #
 	################################################################################
-	echo "INFO| estrazione JSON"
+	info "estrazione JSON"
 	JSON="$(head -n-1 $TEMP_CHK)"
 	################################################################################
 	#	DEBUG force status code                                                    #
 	################################################################################
 	#[ -v DEBUG ] && {
 	isDEBUG && {
-		echo "DEBUG| forzatura JSON, STATUSCODE"
+		debug "forzatura JSON, STATUSCODE"
 		STATUSCODE=200
 		JSON='{"DEBUG": true, "STATUSCODE":200}'
 	}
-	echo "########################################################################################################"
-	echo "STATUSCODE: $STATUSCODE"
-	echo "JSON      : $JSON"
-	echo "########################################################################################################"
+	info "#######################################################################################"
+	info "STATUSCODE: $STATUSCODE"
+	info "JSON      : $JSON"
+	info "#######################################################################################"
 	################################################################################
 	#                                                                              #
 	#                                                                              #
@@ -166,67 +166,67 @@ function firefoxcheck()
 	################################################################################
 	if  [ "$STATUSCODE" -eq 401 ]
 	then
-		echo "########################################################################################################"
-		echo "# $MAILADDRESS"
-		echo "########################################################################################################"
-		echo "#                                                                                                      #"
-		echo "#                                                                                                      #"
-		echo "#                                                                                                      #"
-		echo "#                                                                                                      #"
-		echo "#                                                                                                      #"
-		echo "#                                        !!!!! UNAUTNORIZED !!!                                        #"
-		echo "#                                        !!!!! UNAUTNORIZED !!!                                        #"
-		echo "#                                        !!!!! UNAUTNORIZED !!!                                        #"
-		echo "#                                        !!!!! UNAUTNORIZED !!!                                        #"
-		echo "#                                                                                                      #"
-		echo "#                                                                                                      #"
-		echo "#                                                                                                      #"
-		echo "#                                                                                                      #"
-		echo "#                                                                                                      #"
-		echo "#                                                                                                      #"
-		echo "########################################################################################################"
+		error "#######################################################################################"
+		error "# $MAILADDRESS"
+		error "#######################################################################################"
+		error "#                                                                                     #"
+		error "#                                                                                     #"
+		error "#                                                                                     #"
+		error "#                                                                                     #"
+		error "#                                                                                     #"
+		error "#                                 !!!!! UNAUTNORIZED !!!                              #"
+		error "#                                 !!!!! UNAUTNORIZED !!!                              #"
+		error "#                                 !!!!! UNAUTNORIZED !!!                              #"
+		error "#                                 !!!!! UNAUTNORIZED !!!                              #"
+		error "#                                                                                     #"
+		error "#                                                                                     #"
+		error "#                                                                                     #"
+		error "#                                                                                     #"
+		error "#                                                                                     #"
+		error "#                                                                                     #"
+		error "#######################################################################################"
 		#echo ./mailer.sh "$MAILADDRESS" "$MAILADDRESS - SM24 - UNAUTHORIZED - $STORENAME" "ERRORE 401 su $STORENAME"
 		#./mailer.sh "$MAILADDRESS" "$MAILADDRESS - SM24 - UNAUTHORIZED - $STORENAME" "ERRORE 401 su $STORENAME"
 	elif [ "$STATUSCODE" -eq 404 ]
 	then
 		#echo "$STORENAME"
 		#echo "$STOREADDRESS"
-		echo "########################################################################################################"
-		echo "# $MAILADDRESS"
-		echo "########################################################################################################"
-		echo "#                                        NESSUNA DISPONIBILITA'                                        #"
-		echo "#                                                                                                      #"
-		echo "					$STORENAME"
-		echo "					$STOREADDRESS"
-		echo "########################################################################################################"
+		info "#######################################################################################"
+		info "# $MAILADDRESS"
+		info "#######################################################################################"
+		info "#                                        NESSUNA DISPONIBILITA'                       #"
+		info "#                                                                                     #"
+		info "					$STORENAME"
+		info "					$STOREADDRESS"
+		info "#######################################################################################"
 		#./mailer.sh "$MAILADDRESS" "$MAILADDRESS - NO SLOT DISPONIBILE PER $STORENAME" "NESSUNO SLOT PER $STORENAME - $STOREADDRESS"
 	elif [ $STATUSCODE -eq 200 ]
 	then
 		#echo "$STORENAME"
 		#echo "$STOREADDRESS"
-		echo "########################################################################################################"
-		echo "# $MAILADDRESS"
-		echo "########################################################################################################"
-		echo "#                                                                                                      #"
-		echo "#                                                                                                      #"
-		echo "#                                                                                                      #"
-		echo "#                                        PROBABILE DISPONIBILITA'                                      #"
-		echo "#                                                                                                      #"
-		echo "					$STORENAME"
-		echo "					$STOREADDRESS"
-		echo "#                                                                                                      #"
-		echo "#                                                                                                      #"
-		echo "########################################################################################################"
-		echo "# INVIO MAIL A : $MAILADDRESS"
-		echo "########################################################################################################"
+		info "#######################################################################################"
+		info "# $MAILADDRESS"
+		info "#######################################################################################"
+		info "#                                                                                     #"
+		info "#                                                                                     #"
+		info "#                                                                                     #"
+		info "#                                        PROBABILE DISPONIBILITA'                     #"
+		info "#                                                                                     #"
+		info "					$STORENAME"
+		info "					$STOREADDRESS"
+		info "#                                                                                     #"
+		info "#                                                                                     #"
+		info "#######################################################################################"
+		info "# INVIO MAIL A : $MAILADDRESS"
+		info "#######################################################################################"
 	else
-		echo "WARNING | unknown status: $STATUSCODE" >> $OUT_CHK
+		warn "unknown status: $STATUSCODE" >> $OUT_CHK
 	fi
 	################################################################################
 	#	update json                                                                #
 	################################################################################
 	OUT_JSON=output/"${MAILLOG}"."$STORENAME"."$STATUSCODE"."${TIMESERIAL}".json
-	echo "INFO| update $OUT_JSON"
+	info "update $OUT_JSON"
 	echo "$JSON" > "$OUT_JSON"
 	################################################################################
 	#	STATUSCODE 200                                                             #
@@ -303,7 +303,10 @@ INCLUDE="${INCLUDEPATH}/functions.include"
 MINPARAMS=7
 DEBUGPARAM=$((MINPARAMS+1))
 
-checkparameters $# $MINPARAMS "$(basename $BASH_SOURCE) locationID storeID bearerID storeName storeAddress mailAddress timeSerial [EXECUTE]"
+checkparameters $# $MINPARAMS \
+	"$(basename $BASH_SOURCE) locationID storeID bearerID storeName storeAddress mailAddress timeSerial [EXECUTE]" \
+	|| exit 1
+
 ################################################################################
 #                                                                              #
 #	starts always in debug unless $3 == EXECUTE                                #
@@ -317,15 +320,15 @@ DEBUG=echo
 	unset DEBUG
 }
 #}
-echo "INFO| DEBUG=$DEBUG"
-echo "########################################################################################################"
-echo "script      : $(basename $BASH_SOURCE)"
-echo "parameters  : $#"
+info "DEBUG=$DEBUG"
+info "#######################################################################################"
+info "script      : $(basename $BASH_SOURCE)"
+info "parameters  : $#"
 for arg
 do
-	echo "parameter   : $arg"
+	info "parameter   : $arg"
 done
-echo "########################################################################################################"
+info "#######################################################################################"
 firefoxcheck "$@"
 
 
