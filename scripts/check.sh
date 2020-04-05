@@ -120,13 +120,13 @@ do
 	info "STOREADDRESS: $STOREADDRESS"
 	#
 	info ./firefox.check.sh \
-					"$LOCATIONID" \
-					"$STOREID" \
-					"$BEARERID" \
-					"$STORENAME" \
-					"$STOREADDRESS" \
-					"$EMAIL" \
-					"$TIMESERIAL" \
+					"\"$LOCATIONID\"" \
+					"\"$STOREID\"" \
+					"\"$BEARERID\"" \
+					"\"$STORENAME\"" \
+					"\"$STOREADDRESS\"" \
+					"\"$EMAIL\"" \
+					"\"$TIMESERIAL\"" \
 					EXECUTE \
 					&> >(tee -a "${LOGDIR}/MASTER.log")
 	############################################################################
