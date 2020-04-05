@@ -25,7 +25,7 @@ INCLUDE="${INCLUDEPATH}/functions.include"
 #	echo "syntax $(basename $BASH_SOURCE) email"
 #	exit 1
 #}
-checkparameters $# 1 "$(basename $BASH_SOURCE) email"
+checkparameters $# 1 "$(basename $BASH_SOURCE) email" || exit 1
 EMAIL="$1"
 ################################################################################
 #                                                                              #
