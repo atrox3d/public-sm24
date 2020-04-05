@@ -18,7 +18,7 @@ INCLUDE="${INCLUDEPATH}/functions.include"
 . "$INCLUDE" || { echo "ERROR|cannot source $INCLUDE"; exit 1; }
 ################################################################################
 MINPARAMS=1
-checkparameters $# $MINPARAMS "$(basename $BASH_SOURCE) log|out|all [TIMESERIAL]"
+checkparameters $# $MINPARAMS "$(basename $BASH_SOURCE) log|out|all [TIMESERIAL]" || exit 1
 #
 WHAT="${1,,}"
 #
@@ -51,13 +51,13 @@ LOGFILE="${LOGDIR}/rotate.log"
 #                                                                              #
 #                                                                              #
 ################################################################################
-echo "########################################################################################################"
-echo "INFO| redirecting to STDOUT and $LOGFILE"
-echo "########################################################################################################"
+info "#######################################################################################"
+info "redirecting to STDOUT and $LOGFILE"
+info "#######################################################################################"
 exec &> >(tee -a "$LOGFILE")
-echo "########################################################################################################"
-echo "INFO| WHAT                 : $WHAT"
-echo "INFO| TIMESERIAL_YESTERDAY : $TIMESERIAL_YESTERDAY"
+info "#######################################################################################"
+info "WHAT                 : $WHAT"
+info "TIMESERIAL_YESTERDAY : $TIMESERIAL_YESTERDAY"
 ################################################################################
 #                                                                              #
 #	                                                                           #
@@ -85,14 +85,14 @@ do
 	#FILESTODELETE="${scope}/*${TIMESERIAL_YESTERDAY}*"
 	#echo "INFO| FILESTODELETE : $(echo $FILESTODELETE)"
 	#rm $FILESTODELETE || echo "ERROR| deleting files"
-	echo "INFO| current scope : $scope"
+	info "current scope : $scope"
 	PATTERN="${scope}/*${TIMESERIAL_YESTERDAY}*"
 	DESTDIR="${scope}/${TIMESERIAL_YESTERDAY}"
 	for file in $PATTERN
 	do
 		[ -f "$file" ] || continue
-		echo $file
-		mkdir -p "$DESTDIR" || echo "ERROR| cannot create $DESTDIR"
+		info $file
+		mkdir -p "$DESTDIR" || error "cannot create $DESTDIR"
 		mv "$file" "$DESTDIR"
 	done
 	
