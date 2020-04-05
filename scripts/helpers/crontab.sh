@@ -1,6 +1,6 @@
 #!/bin/bash
 SCRIPTPATH="$(dirname $(realpath $0))"
-INCLUDE="${SCRIPTPATH}/functions.include"
+INCLUDE="${SCRIPTPATH}/include/functions.include"
 LOGDIR="${SCRIPTPATH}/log"
 
 . "$INCLUDE"
