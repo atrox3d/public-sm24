@@ -24,6 +24,7 @@ EMAIL="$2"
 #	forzo bro mail                                                             #
 ################################################################################
 [ "$EMAIL" == "***REMOVED***" ] && {
+	info "forzo ***REMOVED***"
 	MAILLOG="$EMAIL"
 	EMAIL=***REMOVED***
 } || {
@@ -34,11 +35,11 @@ TIMESERIAL="$3"
 PATTERN="${OUTDIR}"/"${MAILLOG}".*.200."${TIMESERIAL}".json
 MAILPATTERN="${OUTDIR}"/"${MAILLOG}"."${TIMESERIAL}".mail
 
-echo "INFO| OUTDIR    : $OUTDIR"
-echo "INFO| EMAIL     : $EMAIL"
-echo "INFO| MAILLOG   : $MAILLOG"
-echo "INFO| TIMESERIAL: $TIMESERIAL"
-echo "INFO| PATTERN   : $PATTERN"
+info "OUTDIR    : $OUTDIR"
+info "EMAIL     : $EMAIL"
+info "MAILLOG   : $MAILLOG"
+info "TIMESERIAL: $TIMESERIAL"
+info "PATTERN   : $PATTERN"
 
 SENDMAIL=OFF
 for file in $PATTERN
@@ -65,12 +66,12 @@ do
 done > "$MAILPATTERN"
 
 [ $SENDMAIL == ON ] && {
-	echo "INFO| trovati slots, mando mail"
-	echo "INFO| " ./mailer.sh "$EMAIL" "$EMAIL - SM24" "$(cat $MAILPATTERN)"
+	info "trovati slots, mando mail"
+	info "" ./mailer.sh "$EMAIL" "$EMAIL - SM24" "$(cat $MAILPATTERN)"
 	./mailer.sh "$EMAIL" "$EMAIL - SM24" "$(cat $MAILPATTERN)"
 } || {
-	echo "INFO| nessuno slot trovato"
-	echo "INFO| cancellazione $MAILPATTERN"
+	info "nessuno slot trovato"
+	info "cancellazione $MAILPATTERN"
 	rm "$MAILPATTERN"
 }
 
