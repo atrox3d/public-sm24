@@ -1,7 +1,26 @@
 #!/bin/bash
-MAILLOG=log/sendemail.log
+################################################################################
+#                                                                              #
+#	START                                                                      #
+#                                                                              #
+################################################################################
+STARTPATH="$(pwd)"
+SCRIPTPATH="$(dirname $(realpath $0))"
+cd "$SCRIPTPATH"
+SCRIPTNAME="$(basename $0)"
+INCLUDEPATH="${SCRIPTPATH}/include"
+INCLUDE="${INCLUDEPATH}/functions.include"
+################################################################################
+#                                                                              #
+#	load include                                                               #
+#                                                                              #
+################################################################################
+. "$INCLUDE" || { echo "ERROR|cannot source $INCLUDE"; exit 1; }
 
-[ $# -ge 3 ] || { echo "syntax: $0 address subject message [[attachment]...]"; exit 1; }
+LOGPATH="${SCRIPTPATH}/log"
+MAILLOG="${LOGPATH}/sendemail.log"
+
+[ $# -ge 3 ] || { fatal "syntax: $0 address subject message [[attachment]...]"; exit 1; }
 
 MAILTO="$1"
 SUBJECT="$2"
@@ -11,27 +30,39 @@ SMTPPORT=587
 MAILADDRESS=***REMOVED***
 MAILUSER=***REMOVED***
 MAILPASSWORD=0Xp0rc0d10
+MAILCC=***REMOVED***
+
+info "MAILTO       : $MAILTO"
+info "SUBJECT      : $SUBJECT"
+info "MESSAGE      : $MESSAGE"
+info "SMTPSERVER   : $SMTPSERVER"
+info "SMTPPORT     : $SMTPPORT"
+info "MAILADDRESS  : $MAILADDRESS"
+info "MAILCC       : $MAILCC"
+info "MAILUSER     : $MAILUSER"
+info "MAILPASSWORD : $MAILPASSWORD"
+
 
 if [ $# -ge 4 ]
 then
 	shift
 	shift
 	shift
-	echo found $# attachments $*
+	info "found $# attachments $*"
 
 	for attachment in $*
 	do
-		echo check attachment -a -$attachment
+		info "check attachment -a -$attachment"
 		ATTACHMENTS="$ATTACHMENTS -a $attachment"
 	done
-	echo ATTACHMENTS:$ATTACHMENTS
+	info "ATTACHMENTS:$ATTACHMENTS"
 	#echo
 	sendemail \
 		-s  "${SMTPSERVER}:${SMTPPORT}" \
 		-xu "$MAILUSER" \
 		-xp "$MAILPASSWORD"  \
 		-f  "$MAILADDRESS" \
-		-cc "***REMOVED***" \
+		-cc "$MAILCC" \
 		-t  "$MAILTO" \
 		-u  "$SUBJECT" \
 		-m  "$MESSAGE" \
@@ -43,7 +74,7 @@ else
 		-xu "$MAILUSER" \
 		-xp "$MAILPASSWORD"  \
 		-f  "$MAILADDRESS" \
-		-cc "***REMOVED***" \
+		-cc "$MAILCC" \
 		-t  "$MAILTO" \
 		-u  "$SUBJECT" \
 		-m  "$MESSAGE" \

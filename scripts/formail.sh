@@ -1,18 +1,31 @@
 #!/bin/bash
-#echo $(realpath $0)
-#echo $(readlink -f $0)
-#echo $(realpath $BASH_SOURCE)
-#echo $(readlink -f $BASH_SOURCE)
+################################################################################
+#                                                                              #
+#	START                                                                      #
+#                                                                              #
+################################################################################
+STARTPATH="$(pwd)"
+SCRIPTPATH="$(dirname $(realpath $0))"
+cd "$SCRIPTPATH"
+SCRIPTNAME="$(basename $0)"
+INCLUDEPATH="${SCRIPTPATH}/include"
+INCLUDE="${INCLUDEPATH}/functions.include"
+################################################################################
+#                                                                              #
+#	load include                                                               #
+#                                                                              #
+################################################################################
+. "$INCLUDE" || { echo "ERROR|cannot source $INCLUDE"; exit 1; }
 
 
 function formail()
 {
 	[ $# -ge 1 ] || {
-		echo "ERROR| syntax formail functionname args"
+		error "syntax formail functionname args"
 		return 1
 	}
 
-	SCRIPTPATH="$(dirname $(realpath $0))"
+	#SCRIPTPATH="$(dirname $(realpath $0))"
 	DATAFOLDER="${SCRIPTPATH}/../data"
 	echo "DATAFOLDER : $DATAFOLDER"
 	#echo "content   : $(ls $DATAFOLDER)"
@@ -24,7 +37,7 @@ function formail()
 		#echo "$(timestamp)|mail:$mail|stores file: $storesfile"
 		#./createstores.sh "$mail" > "$storesfile"
 		#echo $mail
-		echo $@ $mail
+		info "$@" "$mail"
 		$@ $mail
 	done
 }
@@ -35,7 +48,7 @@ if [ "$(basename $BASH_SOURCE)" == "$(basename $0)" ]
 then
 
 	[ $# -ge 1 ] || {
-		echo "ERROR| syntax formail.sh script args"
+		fatal "syntax formail.sh script args"
 		exit 1
 	}
 
