@@ -125,7 +125,10 @@ do
 					"$BEARERID" \
 					"$STORENAME" \
 					"$STOREADDRESS" \
-					EXECUTE
+					"$EMAIL" \
+					"$TIMESERIAL" \
+					EXECUTE \
+					&> >(tee -a "${LOGDIR}/MASTER.log")
 	############################################################################
 	#                                                                          #
 	#	FIREFOXCHECK                                                           #
