@@ -61,18 +61,18 @@ STORES="${DATADIR}/stores"
 # output variables                                                             #
 #                                                                              #
 ################################################################################
-echo "INFO| STARTPATH     : $STARTPATH"
-echo "INFO| SCRIPTPATH    : $SCRIPTPATH"
-echo "INFO| SCRIPTNAME    : $SCRIPTNAME"
-echo "INFO| INCLUDE       : $INCLUDE"
-echo "INFO| CURDIR        : $CURDIR"
-echo "INFO| DATADIR       : $DATADIR"
-echo "INFO| LOGDIR        : $LOGDIR"
-echo "INFO| OUTDIR        : $OUTDIR"
-echo "INFO| LOGFILE       : $LOGFILE"
-echo "INFO| MAIL       : $EMAIL"
-echo "INFO| CREDENTIALS   : $CREDENTIALS"
-echo "INFO| STORES        : $STORES"
+info "STARTPATH     : $STARTPATH"
+info "SCRIPTPATH    : $SCRIPTPATH"
+info "SCRIPTNAME    : $SCRIPTNAME"
+info "INCLUDE       : $INCLUDE"
+info "CURDIR        : $CURDIR"
+info "DATADIR       : $DATADIR"
+info "LOGDIR        : $LOGDIR"
+info "OUTDIR        : $OUTDIR"
+info "LOGFILE       : $LOGFILE"
+info "MAIL          : $EMAIL"
+info "CREDENTIALS   : $CREDENTIALS"
+info "STORES        : $STORES"
 ################################################################################
 #                                                                              #
 # check execution parameters                                                   #
@@ -80,25 +80,25 @@ echo "INFO| STORES        : $STORES"
 ################################################################################
 #
 [ -d  "$DATADIR" ] || {
-	echo "ERROR| path $DATADIR not found"
-	echo "ERROR| exiting"
+	fatal "path $DATADIR not found"
+	fatal "exiting"
 	exit 2
 }
 echo "INFO| DATADIR    : $DATADIR    : OK"
 #
 [ -f  "$CREDENTIALS" ] || {
-	echo "ERROR| file $CREDENTIALS not found"
-	echo "ERROR| exiting"
+	fatal "file $CREDENTIALS not found"
+	fatal "exiting"
 	exit 3
 }
 echo "INFO| CREDENTIALS: $CREDENTIALS: OK"
 #
 [ -f  "$STORES" ] || {
-	echo "ERROR| file $STORES not found"
-	echo "ERROR| exiting"
+	fatal "file $STORES not found"
+	fatal "exiting"
 	exit 4
 }
-echo "INFO| STORES     : $STORES      : OK"
+info "STORES       : $STORES      : OK"
 ################################################################################
 #                                                                              #
 # parse credentials                                                            #
@@ -106,7 +106,7 @@ echo "INFO| STORES     : $STORES      : OK"
 ################################################################################
 #
 read -r _email _password BEARERID < "$CREDENTIALS"
-echo "INFO| BEARERID   : $BEARERID"
+info "BEARERID   : $BEARERID"
 ################################################################################
 #                                                                              #
 #	MAIN LOOP                                                                  #
@@ -114,18 +114,18 @@ echo "INFO| BEARERID   : $BEARERID"
 ################################################################################
 while read -r LOCATIONID STOREID STORENAME STOREADDRESS
 do
-	echo "INFO| LOCATIONID  : $LOCATIONID"
-	echo "INFO| STOREID     : $STOREID"
-	echo "INFO| STORENAME   : $STORENAME"
-	echo "INFO| STOREADDRESS: $STOREADDRESS"
+	info "LOCATIONID  : $LOCATIONID"
+	info "STOREID     : $STOREID"
+	info "STORENAME   : $STORENAME"
+	info "STOREADDRESS: $STOREADDRESS"
 	#
-	echo "INFO| ./firefox.check.sh \
-					$LOCATIONID \
-					$STOREID \
-					$BEARERID \
-					$STORENAME \
-					$STOREADDRESS \
-					EXECUTE"
+	info ./firefox.check.sh \
+					"$LOCATIONID" \
+					"$STOREID" \
+					"$BEARERID" \
+					"$STORENAME" \
+					"$STOREADDRESS" \
+					EXECUTE
 	############################################################################
 	#                                                                          #
 	#	FIREFOXCHECK                                                           #
@@ -147,11 +147,11 @@ do
 	#                                                                          #
 	############################################################################
 	SLEEPTIME=5
-	echo "INFO| SLEEP $SLEEPTIME"
+	info "SLEEP $SLEEPTIME"
 	sleep 5
 done < "$STORES"
 
-echo "${SCRIPTPATH}/json2mail.sh" "$OUTDIR" "$EMAIL" "$TIMESERIAL"
+info "${SCRIPTPATH}/json2mail.sh" "$OUTDIR" "$EMAIL" "$TIMESERIAL"
 "${SCRIPTPATH}/json2mail.sh" "$OUTDIR" "$EMAIL" "$TIMESERIAL"
 ##echo for file in "${OUTDIR}"/"${EMAIL}".*.*."${TIMESERIAL}".json
 #for file in "${OUTDIR}"/"${EMAIL}".*.200."${TIMESERIAL}".json
