@@ -46,6 +46,11 @@ function info()
 	log --info "$@"
 }
 
+function warning()
+{
+	log --warning "$@"
+}
+
 function warn()
 {
 	log --warning "$@"
