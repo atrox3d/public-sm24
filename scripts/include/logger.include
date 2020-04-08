@@ -2,10 +2,10 @@
 
 #echo "BASH_SOURCE[0]=${BASH_SOURCE[0]}"
 
-function test()
-{
-	echo "BASH_SOURCE[0]=${BASH_SOURCE[0]}"
-}
+#function test()
+#{
+#	echo "BASH_SOURCE[0]=${BASH_SOURCE[0]}"
+#}
 function log()
 {
 	local _datestamp="$(date +'%Y/%m/%d')"
