@@ -135,7 +135,7 @@ function firefoxcheck()
 	################################################################################
 	#	extract STATUSCODE                                                         #
 	################################################################################
-	info "estrazione STATUS_CODE"
+	info "estrazione STATUSCODE"
 	IFS=': ' read -r _ STATUSCODE < <(tail -n1 $TEMP_CHK)
 	################################################################################
 	#	extract JSON                                                               #
@@ -220,7 +220,29 @@ function firefoxcheck()
 		info "# INVIO MAIL A : $MAILADDRESS"
 		info "#######################################################################################"
 	else
-		warn "unknown status: $STATUSCODE" >> $OUT_CHK
+		fatal "unknown status: $STATUSCODE" >> $OUT_CHK
+		LOGDIR="$(realpath ${SCRIPTPATH}/log)"
+		LOGFILE="${LOGDIR}/STATUSCODE.${STATUSCODE}.{TIMESERIAL}.log"
+		MASTERLOG="${LOGDIR}/MASTER.log"
+		fatal "######################################################################################" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "# FATAL                                                         FATAL                #" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "#       FATAL                                             FATAL                      #" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "#             FATAL                                 FATAL                            #" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "#                   FATAL                     FATAL                                  #" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "#                          FATAL        FATAL                                        #" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "#                                 FATAL                                              #" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "#                                                                                    #" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "#                                                                                    #" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "#                              STATUSCODE=$STATUSCODE                                 " |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "#                                                                                    #" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "#                                                                                    #" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "#                                                                                    #" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "# FATAL FATAL FATAL FATAL FATAL FATAL FATAL FATAL FATAL FATAL FATAL FATAL FATAL      #" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "#                                                                                    #" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "# FATAL FATAL FATAL FATAL FATAL FATAL FATAL FATAL FATAL FATAL FATAL FATAL FATAL      #" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "#                                                                                    #" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "#                                                                                    #" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
+		fatal "######################################################################################" |& tee -a "${LOGFILE}" |& tee -a "${MASTERLOG}"
 	fi
 	################################################################################
 	#	update json                                                                #
