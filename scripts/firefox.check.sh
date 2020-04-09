@@ -286,17 +286,17 @@ function firefoxcheck()
 	info "MASTERLOG: $MASTERLOG"
 	case $STATUSCODE in
 		200|404)
-				info "STATUSCODE: $STATUSCODE" |& tee -a "$MASTERLOG"
+				info "$MAILLOG | $STORENAME | STATUSCODE: $STATUSCODE" |& tee -a "$MASTERLOG"
 				info return 0
 				return 0
 				;;
 		000)
-				fatal "STATUSCODE: $STATUSCODE" |& tee -a "$MASTERLOG"
+				fatal "$MAILLOG | $STORENAME | STATUSCODE: $STATUSCODE" |& tee -a "$MASTERLOG"
 				info return 1
 				return 1
 				;;
 		*)
-				warn "STATUSCODE: $STATUSCODE" |& tee -a "$MASTERLOG"
+				warn "$MAILLOG | $STORENAME | STATUSCODE: $STATUSCODE" |& tee -a "$MASTERLOG"
 				info return 2
 				return 2
 				;;
