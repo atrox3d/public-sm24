@@ -42,6 +42,8 @@ function firefoxcheck()
 	} || {
 		MAILLOG="$MAILADDRESS"
 	}
+	LOGDIR="$(realpath ${SCRIPTPATH}/log)"
+	MASTERLOG="${LOGDIR}/MASTER.log"
 	################################################################################
 	#	dump variabili                                                             #
 	################################################################################
@@ -221,12 +223,11 @@ function firefoxcheck()
 		info "#######################################################################################"
 	else
 		#fatal "unknown status: $STATUSCODE" >> $OUT_CHK
-		LOGDIR="$(realpath ${SCRIPTPATH}/log)"
+		#LOGDIR="$(realpath ${SCRIPTPATH}/log)"
 		LOGFILE="${LOGDIR}/STATUSCODE.${STATUSCODE}.{TIMESERIAL}.log"
 		# |& tee -a "${LOGFILE}" 
 		fatal "unknown status: $STATUSCODE, $MAILLOG $STORENAME" &> "$LOGFILE"
 		#
-		MASTERLOG="${LOGDIR}/MASTER.log"
 		{
 			fatal "######################################################################################"
 			fatal "# FATAL                                                         FATAL                #"
@@ -281,7 +282,25 @@ function firefoxcheck()
 	#	remove temp files                                                          #
 	################################################################################
 	rm $TEMP_CHK $TEMP_ERR
-	[ $STATUSCODE -eq 200 ] && return 0 || return 1
+	#[ $STATUSCODE -eq 200 ] && return 0 || return 1
+	info "MASTERLOG: $MASTERLOG"
+	case $STATUSCODE in
+		200|404)
+				info "STATUSCODE: $STATUSCODE" |& tee -a "$MASTERLOG"
+				info return 0
+				return 0
+				;;
+		000)
+				fatal "STATUSCODE: $STATUSCODE" |& tee -a "$MASTERLOG"
+				info return 1
+				return 1
+				;;
+		*)
+				warn "STATUSCODE: $STATUSCODE" |& tee -a "$MASTERLOG"
+				info return 2
+				return 2
+				;;
+	esac
 }
 ################################################################################
 #                                                                              #
