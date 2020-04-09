@@ -128,7 +128,7 @@ do
 					"\"$EMAIL\"" \
 					"\"$TIMESERIAL\"" \
 					EXECUTE \
-					&> >(tee -a "${LOGDIR}/MASTER.log")
+					|& tee -a "${LOGDIR}/MASTER.log"
 	############################################################################
 	#                                                                          #
 	#	FIREFOXCHECK                                                           #
