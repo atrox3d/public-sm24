@@ -57,11 +57,17 @@ function firefoxcheck()
 	info "DEBUG       : $DEBUG"
 	info "#######################################################################################"
 	#
-	TEMP_ERR=output/"${MAILLOG}"."${TIMESERIAL}".error.json.temp
-	TEMP_CHK=output/"${MAILLOG}"."${TIMESERIAL}".check.json.temp
-	OUT_ERR=output/"${MAILLOG}"."${TIMESERIAL}".error.json
-	OUT_CHK=output/"${MAILLOG}"."${TIMESERIAL}".check.json
-	OUT_JSON=output/"${MAILLOG}"."$STORENAME"."${TIMESERIAL}".json
+	#TEMP_ERR=output/"${MAILLOG}"."${TIMESERIAL}".error.json.temp
+	#TEMP_CHK=output/"${MAILLOG}"."${TIMESERIAL}".check.json.temp
+	#OUT_ERR=output/"${MAILLOG}"."${TIMESERIAL}".error.json
+	#OUT_CHK=output/"${MAILLOG}"."${TIMESERIAL}".check.json
+	#OUT_JSON=output/"${MAILLOG}"."$STORENAME"."${TIMESERIAL}".json
+	#
+	TEMP_ERR="$OUTDIR"/"${MAILLOG}"."${TIMESERIAL}".error.json.temp
+	TEMP_CHK="$OUTDIR"/"${MAILLOG}"."${TIMESERIAL}".check.json.temp
+	OUT_ERR="$OUTDIR"/"${MAILLOG}"."${TIMESERIAL}".error.json
+	OUT_CHK="$OUTDIR"/"${MAILLOG}"."${TIMESERIAL}".check.json
+	OUT_JSON="$OUTDIR"/"${MAILLOG}"."$STORENAME"."${TIMESERIAL}".json
 	################################################################################
 	#	log parameters                                                             #
 	################################################################################
@@ -331,12 +337,27 @@ function firefoxcheck()
 #		[EXECUTE]                                                              #
 #                                                                              #
 ################################################################################
+#                                                                              #
+#	SET VARIABLES                                                              #
+#                                                                              #
+################################################################################
 STARTPATH="$(pwd)"
 SCRIPTPATH="$(dirname $(realpath $0))"
 cd "$SCRIPTPATH"
 SCRIPTNAME="$(basename $0)"
 INCLUDEPATH="${SCRIPTPATH}/include"
 INCLUDE="${INCLUDEPATH}/functions.include"
+#
+DATADIR="${SCRIPTPATH}/../data/$EMAIL"
+LOGDIR="${SCRIPTPATH}/log"
+OUTDIR="${SCRIPTPATH}/output"
+################################################################################
+#                                                                              #
+#	CREATE DIRS                                                                #
+#                                                                              #
+################################################################################
+mkdir -p "$LOGDIR"
+mkdir -p "$OUTDIR"
 ################################################################################
 #                                                                              #
 #	load include                                                               #
