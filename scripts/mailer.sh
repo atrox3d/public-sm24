@@ -31,7 +31,7 @@ MAILADDRESS=***REMOVED***
 MAILUSER=***REMOVED***
 MAILPASSWORD=0Xp0rc0d10
 MAILCC=***REMOVED***
-
+info "################################################################################"
 info "MAILTO       : $MAILTO"
 info "SUBJECT      : $SUBJECT"
 info "MESSAGE      : $MESSAGE"
@@ -41,7 +41,20 @@ info "MAILADDRESS  : $MAILADDRESS"
 info "MAILCC       : $MAILCC"
 info "MAILUSER     : $MAILUSER"
 info "MAILPASSWORD : $MAILPASSWORD"
-
+info "################################################################################"
+info "check sendemail"
+which sendemail &> /dev/null || {
+	fatal "#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#"
+	fatal "#FATAL#                                                                 #FATAL#"
+	fatal "#FATAL#               IMPOSSIBILE TROVARE SENDEMAIL                     #FATAL#"
+	fatal "#FATAL#                                                                 #FATAL#"
+	fatal "#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#"
+	exit 1
+}
+info "ok"
+info "################################################################################"
+info "START"
+info "################################################################################"
 
 if [ $# -ge 4 ]
 then
