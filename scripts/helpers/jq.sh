@@ -5,7 +5,8 @@
 #		do echo "$c, $d
 #	done
 STARTPATH="$(pwd)"
-SCRIPTPATH="$(dirname $(realpath $0))"
+#SCRIPTPATH="$(dirname $(realpath $0))"
+SCRIPTPATH="$(dirname $(readlink -f $0))"
 cd "$SCRIPTPATH"
 SCRIPTNAME="$(basename $0)"
 INCLUDEPATH="${SCRIPTPATH}/include"
