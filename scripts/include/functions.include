@@ -38,7 +38,7 @@ function iswindows()
 	then
 		[ "$OS" == "WINDOWS" ] && return 0 || return 1
 	else
-		return 1
+		return 2
 	fi
 }
 ################################################################################
@@ -52,7 +52,7 @@ function islinux()
 	then
 		[ "$OS" == "LINUX" ] && return 0 || return 1
 	else
-		return 1
+		return 2
 	fi
 }
 ################################################################################
@@ -131,6 +131,26 @@ function setDEBUG()
 function isDEBUG()
 {
 	[ "$_ISDEBUG_" == "ON" ]
+}
+################################################################################
+#	getIP                                                                     #
+################################################################################
+function getGmailSmtpIP()
+{
+	if iswindows
+	then
+		read -r pinging hostname addr  blah <<< "$(ping -n 1 smtp.***REMOVED*** | grep smtp)"
+	elif islinux
+	then
+		read -r pinging hostname addr  blah <<< "$(ping -c1 smtp.***REMOVED*** | grep smtp)"
+	else
+		echo "(0.0.0.0)"
+	fi
+	
+	addr="${addr#?}"
+	addr="${addr%?}"
+	
+	echo "$addr"
 }
 ################################################################################
 #                                                                              #
