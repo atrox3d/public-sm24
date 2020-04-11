@@ -1,6 +1,7 @@
 #!/bin/bash
 ################################################################################
-INCLUDEPATH="$(dirname $(realpath $BASH_SOURCE))"
+#INCLUDEPATH="$(dirname $(realpath $BASH_SOURCE))"
+INCLUDEPATH="$(dirname $(readlink -f $BASH_SOURCE))"
 _LOGGER="${INCLUDEPATH}/logger.include"
 . "$_LOGGER" || { echo "FATAL| impossibile caricare $_LOGGER"; exit 1; }
 info "$_LOGGER" loaded

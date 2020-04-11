@@ -42,7 +42,8 @@ function firefoxcheck()
 	} || {
 		MAILLOG="$MAILADDRESS"
 	}
-	LOGDIR="$(realpath ${SCRIPTPATH}/log)"
+	#LOGDIR="$(realpath ${SCRIPTPATH}/log)"
+	LOGDIR="$(readlink -f ${SCRIPTPATH}/log)"
 	MASTERLOG="${LOGDIR}/MASTER.log"
 	################################################################################
 	#	dump variabili                                                             #
@@ -342,7 +343,8 @@ function firefoxcheck()
 #                                                                              #
 ################################################################################
 STARTPATH="$(pwd)"
-SCRIPTPATH="$(dirname $(realpath $0))"
+#SCRIPTPATH="$(dirname $(realpath $0))"
+SCRIPTPATH="$(dirname $(readlink -f $0))"
 cd "$SCRIPTPATH"
 SCRIPTNAME="$(basename $0)"
 INCLUDEPATH="${SCRIPTPATH}/include"
