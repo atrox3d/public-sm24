@@ -17,7 +17,7 @@ INCLUDE="${INCLUDEPATH}/functions.include"
 ################################################################################
 . "$INCLUDE" || { echo "ERROR|cannot source $INCLUDE"; exit 1; }
 ################################################################################
-checkparameters $# 3 "$(basename $BASH_SOURCE) OUTDIR EMAIL TIMESERIAL"
+checkparameters $# 3 "$(basename $BASH_SOURCE) OUTDIR EMAIL TIMESERIAL" || exit 1
 OUTDIR="$1"
 EMAIL="$2"
 ################################################################################
@@ -35,12 +35,22 @@ TIMESERIAL="$3"
 PATTERN="${OUTDIR}"/"${MAILLOG}".*.200."${TIMESERIAL}".json
 MAILPATTERN="${OUTDIR}"/"${MAILLOG}"."${TIMESERIAL}".mail
 
+info "################################################################################"
 info "OUTDIR    : $OUTDIR"
 info "EMAIL     : $EMAIL"
 info "MAILLOG   : $MAILLOG"
 info "TIMESERIAL: $TIMESERIAL"
 info "PATTERN   : $PATTERN"
-
+info "################################################################################"
+info "check jq"
+which jq &> /dev/null || {
+	fatal "#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#"
+	fatal "#FATAL#                                                                 #FATAL#"
+	fatal "#FATAL#               IMPOSSIBILE TROVARE JQ                            #FATAL#"
+	fatal "#FATAL#                                                                 #FATAL#"
+	fatal "#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#"
+	exit 1
+}
 SENDMAIL=OFF
 for file in $PATTERN
 do
