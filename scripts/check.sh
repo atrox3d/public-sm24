@@ -92,14 +92,14 @@ info "STORES        : $STORES"
 	fatal "exiting"
 	exit 2
 }
-echo "INFO| DATADIR    : $DATADIR    : OK"
+info "DATADIR    : $DATADIR    : OK"
 #
 [ -f  "$CREDENTIALS" ] || {
 	fatal "file $CREDENTIALS not found"
 	fatal "exiting"
 	exit 3
 }
-echo "INFO| CREDENTIALS: $CREDENTIALS: OK"
+info "CREDENTIALS: $CREDENTIALS: OK"
 #
 [ -f  "$STORES" ] || {
 	fatal "file $STORES not found"
