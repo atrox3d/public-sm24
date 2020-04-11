@@ -51,6 +51,10 @@ which jq &> /dev/null || {
 	fatal "#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#FATAL#"
 	exit 1
 }
+info "ok"
+info "################################################################################"
+info "START"
+info "################################################################################"
 SENDMAIL=OFF
 for file in $PATTERN
 do
