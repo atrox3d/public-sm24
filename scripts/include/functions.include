@@ -133,16 +133,19 @@ function isDEBUG()
 	[ "$_ISDEBUG_" == "ON" ]
 }
 ################################################################################
-#	getIP                                                                     #
+#	getIPfromHost                                                             #
 ################################################################################
-function getGmailSmtpIP()
+function getIPfromHost()
 {
+	checkparameters $# 1 "syntax $FUNCNAME hostname" || return 1
+	local hostname="$1"
+	
 	if iswindows
 	then
-		read -r pinging hostname addr  blah <<< "$(ping -n 1 smtp.***REMOVED*** | grep smtp)"
+		read -r pinging hostname addr  blah <<< "$(ping -n 1 $hostname | grep $hostname)"
 	elif islinux
 	then
-		read -r pinging hostname addr  blah <<< "$(ping -c1 smtp.***REMOVED*** | grep smtp)"
+		read -r pinging hostname addr  blah <<< "$(ping -c1 $hostname | grep $hostname)"
 	else
 		echo "(0.0.0.0)"
 	fi
