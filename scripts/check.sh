@@ -66,7 +66,6 @@ exec &> >(tee -a "$LOGFILE")
 CREDENTIALS="${DATADIR}/credentials"
 STORES="${DATADIR}/stores"
 DONTCHECK="${DATADIR}/DONTCHECK"
-DONTMAIL="${DATADIR}/DONTMAIL"
 ################################################################################
 #                                                                              #
 # output variables                                                             #
@@ -181,23 +180,8 @@ do
 done < "$STORES"
 ################################################################################
 #                                                                              #
-# DONTMAIL                                                                     #
-#                                                                              #
-################################################################################
-[ -f  "${DONTMAIL}" ] && {
-	{
-		warn "#######################################################################################"
-		warn "# ${EMAIL} | found '${DONTMAIL}'"
-		warn "# ${EMAIL} | skip mail"
-		warn "# ${EMAIL} | exiting"
-		warn "#######################################################################################"
-	} |& tee -a "${MASTERLOG}"
-	exit 0
-}
-################################################################################
-#                                                                              #
 # MAIL                                                                         #
 #                                                                              #
 ################################################################################
-info "${SCRIPTPATH}/json2mail.sh" "$OUTDIR" "$EMAIL" "$TIMESERIAL"
-"${SCRIPTPATH}/json2mail.sh" "$OUTDIR" "$EMAIL" "$TIMESERIAL"
+info "${SCRIPTPATH}/json2mail.sh" "$LOGDIR" "$DATADIR" "$OUTDIR" "$EMAIL" "$TIMESERIAL"
+"${SCRIPTPATH}/json2mail.sh" "$LOGDIR" "$DATADIR" "$OUTDIR" "$EMAIL" "$TIMESERIAL"

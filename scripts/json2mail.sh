@@ -18,9 +18,14 @@ INCLUDE="${INCLUDEPATH}/functions.include"
 ################################################################################
 . "$INCLUDE" || { echo "ERROR|cannot source $INCLUDE"; exit 1; }
 ################################################################################
-checkparameters $# 3 "$(basename $BASH_SOURCE) OUTDIR EMAIL TIMESERIAL" || exit 1
-OUTDIR="$1"
-EMAIL="$2"
+checkparameters $# 5 "$(basename $BASH_SOURCE) LOGDIR DATADIR OUTDIR EMAIL TIMESERIAL" || exit 1
+LOGDIR="1"
+DATADIR="$2"
+OUTDIR="$3"
+EMAIL="$4"
+TIMESERIAL="$5"
+DONTMAIL="${DATADIR}/DONTMAIL"
+MASTERLOG="${LOGDIR}/MASTER.log"
 ################################################################################
 #	forzo bro mail                                                             #
 ################################################################################
@@ -32,16 +37,19 @@ EMAIL="$2"
 	MAILLOG="$EMAIL"
 }
 ################################################################################
-TIMESERIAL="$3"
 PATTERN="${OUTDIR}"/"${MAILLOG}".*.200."${TIMESERIAL}".json
 MAILPATTERN="${OUTDIR}"/"${MAILLOG}"."${TIMESERIAL}".mail
-
+################################################################################
 info "################################################################################"
+info "LOGDIR    : $LOGDIR"
+info "DATADIR   : $DATADIR"
+info "DONTMAIL  : $DONTMAIL"
 info "OUTDIR    : $OUTDIR"
 info "EMAIL     : $EMAIL"
 info "MAILLOG   : $MAILLOG"
 info "TIMESERIAL: $TIMESERIAL"
 info "PATTERN   : $PATTERN"
+info "MASTERLOG : $MASTERLOG"
 info "################################################################################"
 info "check jq"
 which jq &> /dev/null || {
@@ -81,6 +89,22 @@ do
 done > "$MAILPATTERN"
 
 [ $SENDMAIL == ON ] && {
+	################################################################################
+	#                                                                              #
+	# DONTMAIL                                                                     #
+	#                                                                              #
+	################################################################################
+	[ -f  "${DONTMAIL}" ] && {
+		{
+			warn "#######################################################################################"
+			warn "# ${EMAIL} | found '${DONTMAIL}'"
+			warn "# ${EMAIL} | skip mail"
+			warn "# ${EMAIL} | exiting"
+			warn "#######################################################################################"
+		} |& tee -a "${MASTERLOG}"
+		exit 0
+	}
+	################################################################################
 	info "trovati slots, mando mail"
 	info "" ./mailer.sh "$EMAIL" "$EMAIL - SM24" "$(cat $MAILPATTERN)"
 	./mailer.sh "$EMAIL" "$EMAIL - SM24" "$(cat $MAILPATTERN)"
