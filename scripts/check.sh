@@ -64,6 +64,8 @@ info "##########################################################################
 exec &> >(tee -a "$LOGFILE")
 CREDENTIALS="${DATADIR}/credentials"
 STORES="${DATADIR}/stores"
+DONTCHECK="${DATADIR}/DONTCHECK"
+DONTMAIL="${DATADIR}/DONTMAIL"
 ################################################################################
 #                                                                              #
 # output variables                                                             #
