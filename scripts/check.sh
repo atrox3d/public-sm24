@@ -39,6 +39,7 @@ LOGDIR="${SCRIPTPATH}/log"
 OUTDIR="${SCRIPTPATH}/output"
 TIMESERIAL="$(timeserial)"
 LOGFILE="${LOGDIR}/${EMAIL}.${TIMESERIAL}.log"
+MASTERLOG="${LOGDIR}/MASTER.log"
 ################################################################################
 #                                                                              #
 #	CREATE DIRS                                                                #
@@ -89,26 +90,39 @@ info "STORES        : $STORES"
 #                                                                              #
 ################################################################################
 #
-[ -d  "$DATADIR" ] || {
-	fatal "path $DATADIR not found"
+[ -d  "${DATADIR}" ] || {
+	fatal "path ${DATADIR} not found"
 	fatal "exiting"
 	exit 2
 }
-info "DATADIR    : $DATADIR    : OK"
+info "DATADIR    : ${DATADIR}    : OK"
 #
-[ -f  "$CREDENTIALS" ] || {
-	fatal "file $CREDENTIALS not found"
+[ -f  "${CREDENTIALS}" ] || {
+	fatal "file '${CREDENTIALS}' not found"
 	fatal "exiting"
 	exit 3
 }
-info "CREDENTIALS: $CREDENTIALS: OK"
+info "CREDENTIALS: ${CREDENTIALS}: OK"
 #
-[ -f  "$STORES" ] || {
-	fatal "file $STORES not found"
+[ -f  "${STORES}" ] || {
+	fatal "file '${STORES}' not found"
 	fatal "exiting"
 	exit 4
 }
-info "STORES       : $STORES      : OK"
+info "STORES       : ${STORES}      : OK"
+################################################################################
+#                                                                              #
+# DONTCHECK                                                                    #
+#                                                                              #
+################################################################################
+[ -f  "${DONTCHECK}" ] || {
+	{
+		warn "${EMAIL} | found '${DONTCHECK}'"
+		warn "${EMAIL} | skip check"
+		warn "${EMAIL} | exiting"
+	} | tee -a "${MASTERLOG}"
+	exit 0
+}
 ################################################################################
 #                                                                              #
 # parse credentials                                                            #
@@ -138,7 +152,7 @@ do
 					"\"$EMAIL\"" \
 					"\"$TIMESERIAL\"" \
 					EXECUTE \
-					|& tee -a "${LOGDIR}/MASTER.log"
+					|& tee -a "${MASTERLOG}"
 	############################################################################
 	#                                                                          #
 	#	FIREFOXCHECK                                                           #
