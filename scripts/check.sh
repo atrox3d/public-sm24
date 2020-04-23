@@ -115,7 +115,7 @@ info "STORES       : ${STORES}      : OK"
 # DONTCHECK                                                                    #
 #                                                                              #
 ################################################################################
-[ -f  "${DONTCHECK}" ] || {
+[ -f  "${DONTCHECK}" ] && {
 	{
 		warn "${EMAIL} | found '${DONTCHECK}'"
 		warn "${EMAIL} | skip check"
@@ -177,6 +177,19 @@ do
 	info "SLEEP $SLEEPTIME"
 	sleep 5
 done < "$STORES"
+################################################################################
+#                                                                              #
+# DONTCHECK                                                                    #
+#                                                                              #
+################################################################################
+[ -f  "${DONTMAIL}" ] && {
+	{
+		warn "${EMAIL} | found '${DONTMAIL}'"
+		warn "${EMAIL} | skip mail"
+		warn "${EMAIL} | exiting"
+	} | tee -a "${MASTERLOG}"
+	exit 0
+}
 
 info "${SCRIPTPATH}/json2mail.sh" "$OUTDIR" "$EMAIL" "$TIMESERIAL"
 "${SCRIPTPATH}/json2mail.sh" "$OUTDIR" "$EMAIL" "$TIMESERIAL"
