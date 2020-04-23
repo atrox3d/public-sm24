@@ -179,7 +179,7 @@ do
 done < "$STORES"
 ################################################################################
 #                                                                              #
-# DONTCHECK                                                                    #
+# DONTMAIL                                                                     #
 #                                                                              #
 ################################################################################
 [ -f  "${DONTMAIL}" ] && {
@@ -190,12 +190,10 @@ done < "$STORES"
 	} | tee -a "${MASTERLOG}"
 	exit 0
 }
-
+################################################################################
+#                                                                              #
+# MAIL                                                                         #
+#                                                                              #
+################################################################################
 info "${SCRIPTPATH}/json2mail.sh" "$OUTDIR" "$EMAIL" "$TIMESERIAL"
 "${SCRIPTPATH}/json2mail.sh" "$OUTDIR" "$EMAIL" "$TIMESERIAL"
-##echo for file in "${OUTDIR}"/"${EMAIL}".*.*."${TIMESERIAL}".json
-#for file in "${OUTDIR}"/"${EMAIL}".*.200."${TIMESERIAL}".json
-#do
-#	[ -f "$file" ] || continue
-#	echo $file
-#done
