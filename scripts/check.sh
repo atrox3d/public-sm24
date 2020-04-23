@@ -120,7 +120,7 @@ info "STORES       : ${STORES}      : OK"
 		warn "${EMAIL} | found '${DONTCHECK}'"
 		warn "${EMAIL} | skip check"
 		warn "${EMAIL} | exiting"
-	} | tee -a "${MASTERLOG}"
+	} |& tee -a "${MASTERLOG}"
 	exit 0
 }
 ################################################################################
@@ -187,7 +187,7 @@ done < "$STORES"
 		warn "${EMAIL} | found '${DONTMAIL}'"
 		warn "${EMAIL} | skip mail"
 		warn "${EMAIL} | exiting"
-	} | tee -a "${MASTERLOG}"
+	} |& tee -a "${MASTERLOG}"
 	exit 0
 }
 ################################################################################
