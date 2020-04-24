@@ -19,7 +19,7 @@ INCLUDE="${INCLUDEPATH}/functions.include"
 . "$INCLUDE" || { echo "ERROR|cannot source $INCLUDE"; exit 1; }
 ################################################################################
 checkparameters $# 5 "$(basename $BASH_SOURCE) LOGDIR DATADIR OUTDIR EMAIL TIMESERIAL" || exit 1
-LOGDIR="1"
+LOGDIR="$1"
 DATADIR="$2"
 OUTDIR="$3"
 EMAIL="$4"
