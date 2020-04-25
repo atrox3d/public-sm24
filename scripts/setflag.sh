@@ -28,7 +28,7 @@ checkparameters $# 3 "$(basename $BASH_SOURCE) mail flag on|off [ -d datadir -l 
 # DEFAULTS                                                                     #
 #                                                                              #
 ################################################################################
-DATADIR="${SCRIPTPATH}../data"
+DATADIR="${SCRIPTPATH}/../data"
 LOGDIR="${SCRIPTPATH}/log"
 OUTDIR="${SCRIPTPATH}/output"
 ################################################################################
@@ -48,3 +48,13 @@ info "ONOFF     : ${ONOFF}"
 info "MASTERLOG : ${MASTERLOG}"
 info "################################################################################"
 ################################################################################
+for dir in "${DATADIR}" "${LOGDIR}" "${OUTDIR}"
+do
+	info "check ${dir}"
+	[ -d "${dir}" ] || { fatal "directory ${dir} not found"; exit 1; }
+	info "ok"
+done
+#
+[ -d "${DATADIR}/${MAIL}"  ] || { fatal "invalid mail: ${MAIL}"; exit 1; }
+################################################################################
+
