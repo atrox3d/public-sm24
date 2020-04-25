@@ -32,8 +32,8 @@ DATADIR="${SCRIPTPATH}/../data"
 LOGDIR="${SCRIPTPATH}/log"
 OUTDIR="${SCRIPTPATH}/output"
 ################################################################################
-MAIL="${1}"
-FLAG="${2}"
+MAIL="${1,,}"
+FLAG="${2^^}"
 ONOFF="${3,,}"
 ################################################################################
 MASTERLOG="${LOGDIR}/MASTER.log"
@@ -57,4 +57,17 @@ done
 #
 [ -d "${DATADIR}/${MAIL}"  ] || { fatal "invalid mail: ${MAIL}"; exit 1; }
 ################################################################################
+case $ONOFF in
+	on)
+		[ -f "${DATADIR}/${MAIL}/DONT${FLAG}" ] && {
+			rm "${DATADIR}/${MAIL}/DONT${FLAG}"
+		}
+	;;
+	off)
+		touch "${DATADIR}/${MAIL}/DONT${FLAG}"
+	;;
+	*)
+		fatal "FLAG must be on or off, got '$ONOFF'"
+	;;
+esac
 
