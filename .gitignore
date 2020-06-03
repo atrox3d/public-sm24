@@ -4,4 +4,6 @@ out/
 log/
 scripts/include/*/
 /crontabs/
+DONT*
+
 
