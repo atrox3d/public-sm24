@@ -2,6 +2,10 @@
 ################################################################################
 #INCLUDEPATH="$(dirname $(realpath $BASH_SOURCE))"
 INCLUDEPATH="$(dirname $(readlink -f $BASH_SOURCE))"
+#
+_CONFIG="${INCLUDEPATH}/.config"
+. "$_CONFIG" || { echo "FATAL| impossibile caricare $_CONFIG"; exit 1; }
+#
 _LOGGER="${INCLUDEPATH}/logger.include"
 . "$_LOGGER" || { echo "FATAL| impossibile caricare $_LOGGER"; exit 1; }
 info "$_LOGGER" loaded
