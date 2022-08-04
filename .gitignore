@@ -5,5 +5,9 @@ log/
 scripts/include/*/
 /crontabs/
 DONT*
+data/*
+curl.browsers/*
+temp/*
+.credentials
 
 
